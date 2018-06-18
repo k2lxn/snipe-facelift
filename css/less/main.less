@@ -1,0 +1,120 @@
+/* ---------------------------------------------------
+    Global 
+ --------------------------------------------------- */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+html, body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+
+/* From Bootstrap */
+.btn {
+  display: inline-block;
+  padding: @button-padding;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  white-space: nowrap;
+  border-radius: 4px;
+}
+
+.btn-primary {
+	background-color: @brand-primary;
+	color: #fff;
+}
+
+
+
+
+
+/* ---------------------------------------------------
+    Typography 
+ --------------------------------------------------- */
+
+body {
+	font-family: @font-family-base;
+	font-size: @font-size-base;
+	color: @font-base-color;
+}
+
+a {
+	text-decoration: none;
+	color: @font-base-color;
+}
+
+
+/* ---------------------------------------------------
+    Components 
+ --------------------------------------------------- */
+// Header //
+
+header {
+	background-color: @grey-light;
+	min-height: 50px;
+	
+	a#logo {
+		img {
+			width: 350px;
+			max-width: 100%;
+		}
+		max-width: 30%;
+	}
+	
+	nav {
+		float: right;
+		
+		ul {
+			list-style: none;
+			padding-left: 0;
+		}
+	}
+	
+	a#logo, nav > ul > li {
+		padding: 15px;
+		display: inline-block;
+	}	
+}
+
+
+// Footer //
+ 
+footer {
+
+}
+ 
+ 
+
+/* ---------------------------------------------------
+    Forms 
+ --------------------------------------------------- */
+ 
+ 
+ 
+ 
+ 
+ 
+/* ---------------------------------------------------
+    Grids 
+ --------------------------------------------------- */
+
+
+
+
+
+/* ---------------------------------------------------
+    Media queries 
+ --------------------------------------------------- */
+
+
