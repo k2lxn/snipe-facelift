@@ -2,5 +2,7 @@ CAS*
 secrets.php
 snipe-dev-token.txt
 curls.txt
+allowed-users.php
 Snipe\ brainstorm.rtf
 *DS_Store
+node_modules/*

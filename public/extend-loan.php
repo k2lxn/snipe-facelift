@@ -1,29 +1,16 @@
 <?php
-require_once('secrets.php');
-require_once( 'CAS-1.3.3/CAS.php' ) ;
+require_once('../secrets.php');
 
+//$target_tag = "TEST";
+$target_tag;
+$snipe_id;
+$assignee_id;
+$last_checkout;
 
-// initialize phpCAS
-phpCAS::client( CAS_VERSION_2_0, 'login.dartmouth.edu', 443, 'cas' ) ;
-        #phpCAS::client( CAS_VERSION_2_0, 'login-preprod.dartmouth.edu', 443, '/cas' ) ;
+if ( isset($_GET['asset']) ){
+	$target_tag = $_GET['asset'] ;
+}
 
-        // no SSL validation for the CAS server
-        phpCAS::setNoCasServerValidation();
-
-        // force CAS authentication
-        phpCAS::forceAuthentication();
-
-        // at this point, the user has been authenticated by the CAS server
-        if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
-            if( !isset($_SESSION['username']) ) {
-                $username = phpCAS::getAttribute( 'netid' ) ;
- 				echo "<p> Username: " . $username . "</p>" ;
-            }
-        } else {
-            echo "Sorry, you are not in the dartmouth.edu realm." ;
-            exit( 1 ) ;
-        }
-	
 $access_token = $dev_token;
 $headers = array(
 	'Content-Type: application/json',
@@ -31,11 +18,6 @@ $headers = array(
 );
 
 // 1st curl: search by asset tag
-$target_tag = "TEST";
-$snipe_id;
-$assignee_id;
-$last_checkout;
-
 $ch = curl_init('https://ts.snipe-it.io/api/v1/hardware?search=' . $target_tag);
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -56,15 +38,26 @@ for ($x = 0; $x < count($assets); $x++) {
 		$checkout_date = $last_checkout->format('Y-m-d');
 		$expected_checkin = $assets[$x]['expected_checkin']['date'];	
 
+		/*
 		print( $assets[$x]['asset_tag'].' - assigned to ' . $assets[$x]['assigned_to']['name'] . "\n" );
 		print( "- snipe_id: " . $snipe_id . "\n" );
 		print( "- assignee_id: " . $assignee_id . "\n" );
 		print( "- checkout_date: " . $checkout_date . "\n" );
 		print( "- expected_checkin: " . $expected_checkin . "\n" );
+		*/
 	}
 }	
 
 
+echo json_encode( array('asset_tag'=>$target_tag,
+                        'snipe_id'=>$snipe_id,
+                        'assignee_id'=>$assignee_id,
+                        'checkout_date'=>$checkout_date,
+                        'expected_checkin'=>$expected_checkin) ) ;
+
+
+//echo json_encode(array('assets' => $assets));
+/*
 
 // 2nd curl: checkin
 $ch = curl_init('https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin');
@@ -104,7 +97,7 @@ $data = curl_exec($ch);
 print("Checkout reponse \n");
 print_r($data);
 curl_close($ch);
-
+*/
 ?>
 
 
