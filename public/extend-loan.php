@@ -1,6 +1,6 @@
 <?php
 require_once('../secrets.php');
-//include('helpers/validation.php');
+require_once('helpers/validation.php');
 
 $target_tag;
 $snipe_id;
