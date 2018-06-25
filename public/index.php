@@ -39,22 +39,26 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 <h1>Snipe+</h1>
 
 <ul id="actions-menu">
-    <li class="active" data-action="checkin">Checkin</li>
+    <li class="active" data-action="checkin" data-hide-user=true>Checkin</li>
     <li data-action="checkout">Checkout</li>
     <li data-action="extend-loan">Extend</li>
 </ul>
 
 <form>
     <div class="form-row">
-        <label for="asset">Asset tag</label>
-        <input type="text" id="asset" name="asset">
+        <label for="asset">Asset</label>
+        <input type="text" id="asset" name="asset" required>
     </div>
-    <div class="form-row">
-        <label for="user">User</label>
+    <div class="form-row d-none">
+        <label for="user">To</label>
         <input type="text" id="user" name="user">
     </div>
+    <div class="form-row d-none">
+        <label for="checkin-date">Until</label>
+        <input type="date" id="checkin-date" name="checkin-date">
+    </div>
     <div class="form-row">
-        <input type="button" id="go" value="Go" class="btn btn-primary">
+        <input type="submit" id="go" value="Go" class="btn btn-primary">
     </div>
 </form>
 

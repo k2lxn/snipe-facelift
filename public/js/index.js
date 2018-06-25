@@ -50,7 +50,13 @@ $(document).ready(function() {
 		$(this).addClass("active");
 
 		// Display relevant form elements
-			// __unrequire and hide 
+		if ( $(this).data("hide-user") === true ) {
+			$("input#user").prop('required',false).parent(".form-row").addClass('d-none');
+			$("input#checkin-date").prop('required',false).parent(".form-row").addClass('d-none');
+		} else {
+			$("input#user").prop('required',true).parent(".form-row").removeClass('d-none');
+			$("input#checkin-date").prop('required',true).parent(".form-row").removeClass('d-none');
+		}		
 
 		// Bind action to Go button
 		$("#go").data("action", $(this).data("action") );
@@ -58,21 +64,32 @@ $(document).ready(function() {
 
 
 	// Hook up Go button
-	$("#go").click( function(){
-		var action = $(this).data("action") ;
+	$("form").submit( function(){
 
-		var url = action + ".php?" ;
-		console.log( "url:" + url );
+		var action = $("#go").data("action") ;
+		var asset = $("input#asset").val();
 
+		var url = action + ".php?asset=" + asset ;
+		
 		// grab other data from form
+		$("form input:not([type='submit'])").each( function() {
+			if ( $(this).val() !== "" ) {
+				url += "&" + $(this).attr("name") + "=" + $(this).val() ;
+			}
+		});
+
+		console.log( "url:" + url );
 
 		/*
 		ajax_call( url, null, function( response ) {
 			response = JSON.parse(response);
 			console.log(response);
+
+			// Clear form fields
 		});
 		*/
 		
+		return false;
 	});
 
 });
