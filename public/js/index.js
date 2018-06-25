@@ -39,20 +39,39 @@ function ajax_call( url, params, callback ) {
 
 /* DOM ready */
 $(document).ready(function() {
+	// Set default action for Go button
+	$("#go").data("action", "checkin");
 
-	// attach onclicks 
-	$("#extend-loan").click( function(){
-		console.log("Extending loan");
+	// Main actions menu
+	$("ul#actions-menu > li").click( function(){
 
-		var url = "extend-loan.php?asset=TEST" ;
+		// Indicate which action is selected	
+		$("ul#actions-menu > li.active").removeClass("active");
+		$(this).addClass("active");
 
+		// Display relevant form elements
+			// __unrequire and hide 
+
+		// Bind action to Go button
+		$("#go").data("action", $(this).data("action") );
+	});
+
+
+	// Hook up Go button
+	$("#go").click( function(){
+		var action = $(this).data("action") ;
+
+		var url = action + ".php?" ;
+		console.log( "url:" + url );
+
+		// grab other data from form
+
+		/*
 		ajax_call( url, null, function( response ) {
 			response = JSON.parse(response);
-
-			console.log("ajax_call worked; response: ");
 			console.log(response);
 		});
-
+		*/
 		
 	});
 

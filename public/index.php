@@ -15,7 +15,7 @@ phpCAS::forceAuthentication();
 if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     if( !isset($_SESSION['username']) ) {
         $username = phpCAS::getAttribute( 'netid' ) ;
-			echo "<p> User: " . $username . "</p>" ;
+			//echo "<p> User: " . $username . "</p>" ;
     }
 } else {
     echo "Sorry, you are not in the dartmouth.edu realm." ;
@@ -38,24 +38,25 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 
 <h1>Snipe+</h1>
 
-<ul id="menu">
-    <li>Checkin</li>
-    <li>Checkout</li>
-    <li>Extend</li>
+<ul id="actions-menu">
+    <li class="active" data-action="checkin">Checkin</li>
+    <li data-action="checkout">Checkout</li>
+    <li data-action="extend-loan">Extend</li>
 </ul>
 
 <form>
-    <div class="form-group">
-        <label for="asset_tag">Asset tag</label>
-        <input type="text" id="asset_tag" name="asset_tag">
+    <div class="form-row">
+        <label for="asset">Asset tag</label>
+        <input type="text" id="asset" name="asset">
+    </div>
+    <div class="form-row">
+        <label for="user">User</label>
+        <input type="text" id="user" name="user">
+    </div>
+    <div class="form-row">
+        <input type="button" id="go" value="Go" class="btn btn-primary">
     </div>
 </form>
-
-
-<!-- Extend loan -->
-<input type="button" id="extend-loan" value="Extend">
-
-
 
 </body>
 
