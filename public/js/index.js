@@ -51,11 +51,11 @@ $(document).ready(function() {
 
 		// Display relevant form elements
 		if ( $(this).data("hide-user") === true ) {
-			$("input#user").prop('required',false).parent(".form-row").addClass('d-none');
-			$("input#checkin-date").prop('required',false).parent(".form-row").addClass('d-none');
+			$("input#user").prop('required',false).parents(".form-row").addClass('d-none');
+			$("input#checkin-date").prop('required',false).parents(".form-row").addClass('d-none');
 		} else {
-			$("input#user").prop('required',true).parent(".form-row").removeClass('d-none');
-			$("input#checkin-date").prop('required',true).parent(".form-row").removeClass('d-none');
+			$("input#user").prop('required',true).parents(".form-row").removeClass('d-none');
+			$("input#checkin-date").prop('required',true).parents(".form-row").removeClass('d-none');
 		}		
 
 		// Bind action to Go button

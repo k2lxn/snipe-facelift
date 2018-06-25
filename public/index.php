@@ -46,16 +46,22 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 
 <form>
     <div class="form-row">
-        <label for="asset">Asset</label>
-        <input type="text" id="asset" name="asset" required>
+        <label for="asset" class="col-1 col-form-label">Asset</label>
+        <div class="col-6">
+            <input type="text" id="asset" name="asset" class="form-control" required>
+        </div>
     </div>
     <div class="form-row d-none">
-        <label for="user">To</label>
-        <input type="text" id="user" name="user">
+        <label for="user" class="col-1 col-form-label">To</label>
+        <div class="col-6">
+            <input type="text" id="user" name="user" class="form-control">
+        </div>
     </div>
     <div class="form-row d-none">
-        <label for="checkin-date">Until</label>
-        <input type="date" id="checkin-date" name="checkin-date">
+        <label for="checkin-date" class="col-1 col-form-label">Until</label>
+        <div class="col-6">
+            <input type="date" id="checkin-date" name="checkin-date" class="form-control">
+        </div>
     </div>
     <div class="form-row">
         <input type="submit" id="go" value="Go" class="btn btn-primary">

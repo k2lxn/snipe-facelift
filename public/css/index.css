@@ -6311,8 +6311,14 @@ form .form-row {
     display: flex;
     flex-direction: row-reverse; }
 
-form label {
-  margin-right: 10px; }
-
 form input[type="submit"] {
   margin-top: 10px; }
+
+form .form-control {
+  border-radius: 0px;
+  border-color: #fff;
+  border-bottom: 2px solid #495057; }
+  form .form-control:focus {
+    border-color: #fff;
+    border-bottom: 2px solid #495057;
+    box-shadow: unset; }

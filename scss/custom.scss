@@ -47,12 +47,20 @@ form {
 		}
 	}
 
-	label {
-		margin-right: 10px;
-	}
-
 	input[type="submit"] {
 		margin-top: 10px;
+	}
+
+	.form-control {
+		border-radius: 0px;
+		border-color: #fff;
+		border-bottom: 2px solid $gray-700;
+
+		&:focus {
+			border-color: #fff;
+			border-bottom: 2px solid $gray-700;
+			box-shadow: unset;
+		}
 	}
 }
 
