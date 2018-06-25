@@ -31,12 +31,18 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     <title>Snipe API playground</title>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
     
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/index.css" />
 </head>
 
 <body>
 
 <h1>Snipe+</h1>
+
+<ul id="menu">
+    <li>Checkin</li>
+    <li>Checkout</li>
+    <li>Extend</li>
+</ul>
 
 <form>
     <div class="form-group">

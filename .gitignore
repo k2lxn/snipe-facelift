@@ -6,3 +6,4 @@ allowed-users.php
 Snipe\ brainstorm.rtf
 *DS_Store
 node_modules/*
+Gulpfile.js
