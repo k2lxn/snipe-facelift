@@ -4,5 +4,7 @@ curls.txt
 allowed-users.php
 Snipe\ brainstorm.rtf
 *DS_Store
+package-lock.json
+package.json
 node_modules/*
 Gulpfile.js
