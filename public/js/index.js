@@ -69,7 +69,7 @@ $(document).ready(function() {
 		var action = $("#go").data("action") ;
 		var asset = $("input#asset").val();
 
-		var url = action + ".php?asset=" + asset ;
+		var url = action + ".php?" ;
 		
 		// grab other data from form
 		$("form input:not([type='submit'])").each( function() {
