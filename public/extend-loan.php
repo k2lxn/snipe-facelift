@@ -32,7 +32,7 @@ $headers = array(
 	'Authorization: Bearer '.$access_token,
 );
 
-// 1st curl: search by asset tag
+// 1st curl: search by asset 
 $ch = curl_init('https://ts.snipe-it.io/api/v1/hardware?search=' . $target_tag);
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -47,7 +47,7 @@ if ( $json['total'] != 0 ) {
 	$assets = $json['rows'];
 	for ($x = 0; $x < count($assets); $x++) {
 		$asset_tag = $assets[$x]['asset_tag'];
-		if ( $asset_tag == $target_tag ) {
+		if ( strtolower( $asset_tag ) == $target_tag ) {
 
 			$snipe_id = $assets[$x]['id'];	
 			$assignee_id = $assets[$x]['assigned_to']['id'];
