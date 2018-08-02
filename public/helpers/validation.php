@@ -1,7 +1,16 @@
 <?php
 
 function validate_asset_tag( $raw_request ) {
-	//print "Hi Jane";
+	$asset = strtolower( $raw_request );
+
+	// accept: 4 digits, optionally preceded by "l"
+	if ( preg_match('/^l?\d{4}$/', $asset, $matches) ) {
+		$valid_tag = $matches[0];
+		return $valid_tag;
+	}
+	else {
+		return false;
+	}
 }
 
 ?>

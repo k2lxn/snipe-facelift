@@ -80,16 +80,16 @@ $(document).ready(function() {
 
 		console.log( "url:" + url );
 
-		/*
+		
 		ajax_call( url, null, function( response ) {
 			response = JSON.parse(response);
 			console.log(response);
 
-			// Clear form fields
+			// Clear form fields?
 		});
-		*/
 		
-		return false;
+		
+		return false;  // override default submit behavior
 	});
 
 });

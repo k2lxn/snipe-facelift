@@ -11,8 +11,15 @@ if ( isset($_GET['asset']) ){
 	$requested_tag = $_GET['asset'] ;
 
 	// do data sanitization, i.e. validate_asset_tag( $_GET['asset'] ) etc
+	$target_tag = validate_asset_tag( $_GET['asset'] );
+
+	if ( $target_tag == false ) {
+		echo json_encode( array('status'=>'error', 'message'=>'Invalid asset tag' ) );
+		exit(1);
+	}
+	
 	// But for now:
-	$target_tag = $_GET['asset'] ;
+	//$target_tag = $_GET['asset'] ;
 }
 else {
 	echo json_encode( array('status'=>'error', 'message'=>'No asset tag given' ) );
