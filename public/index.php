@@ -51,36 +51,15 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     </div>
 </div>
 
-
-
-
-<ul id="actions-menu">
-    <li class="active" data-action="checkin" data-hide-user=true>Checkin</li>
-    <li data-action="checkout">Checkout</li>
-    <li data-action="extend-loan">Extend</li>
-</ul>
-
-<form>
+<form id="get-asset">
     <div class="form-row">
         <label for="asset" class="col-1 col-form-label">Asset</label>
         <div class="col-6">
             <input type="text" id="asset" name="asset" class="form-control" required>
         </div>
-    </div>
-    <div class="form-row d-none">
-        <label for="user" class="col-1 col-form-label">To</label>
-        <div class="col-6">
-            <input type="text" id="user" name="user" class="form-control">
+        <div class="col-1">
+            <input type="submit" value="Go" class="btn btn-primary" data-action="asset">
         </div>
-    </div>
-    <div class="form-row d-none">
-        <label for="checkin-date" class="col-1 col-form-label">Until</label>
-        <div class="col-6">
-            <input type="date" id="checkin-date" name="checkin-date" class="form-control">
-        </div>
-    </div>
-    <div class="form-row">
-        <input type="submit" id="go" value="Go" class="btn btn-primary">
     </div>
 </form>
 

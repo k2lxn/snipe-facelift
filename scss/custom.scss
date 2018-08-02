@@ -40,15 +40,10 @@ ul#actions-menu {
 form {
 	.form-row {
 		padding: 5px 0;
-
-		&:last-of-type {
-			display: flex;
-			flex-direction: row-reverse;
-		}
 	}
 
 	input[type="submit"] {
-		margin-top: 10px;
+		//margin-top: 10px;
 	}
 
 	.form-control {

@@ -6307,12 +6307,6 @@ ul#actions-menu {
 
 form .form-row {
   padding: 5px 0; }
-  form .form-row:last-of-type {
-    display: flex;
-    flex-direction: row-reverse; }
-
-form input[type="submit"] {
-  margin-top: 10px; }
 
 form .form-control {
   border-radius: 0px;
