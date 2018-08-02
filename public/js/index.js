@@ -39,6 +39,13 @@ function ajax_call( url, params, callback ) {
 
 /* DOM ready */
 $(document).ready(function() {
+
+	// hook up close buttons for modals
+	$(".close").click( function(){
+		console.log("closing window");
+		$( $(this).data("dismiss") ).css("display", "none");
+	});
+
 	// Set default action for Go button
 	$("#go").data("action", "checkin");
 
@@ -84,6 +91,13 @@ $(document).ready(function() {
 		ajax_call( url, null, function( response ) {
 			response = JSON.parse(response);
 			console.log(response);
+
+			// Display error messages
+			if ( response["status"] === "error" ) {
+				$("#message").addClass("error");
+				$("#message .modal-body p").text( response["message"] );
+				$("#message.modal").css("display", "block");
+			}
 
 			// Clear form fields?
 		});

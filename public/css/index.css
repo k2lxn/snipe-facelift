@@ -6322,3 +6322,18 @@ form .form-control {
     border-color: #fff;
     border-bottom: 2px solid #495057;
     box-shadow: unset; }
+
+.modal {
+  margin: 15px; }
+
+#message {
+  margin-top: 30px; }
+  #message .modal-header {
+    padding: 0 5px;
+    position: absolute;
+    width: 100%; }
+  #message .modal-body {
+    padding-bottom: 0;
+    pointer-events: none; }
+  #message.error .modal-content {
+    background-color: #dc3545; }

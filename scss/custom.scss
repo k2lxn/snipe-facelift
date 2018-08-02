@@ -65,7 +65,35 @@ form {
 }
 
 
+// Modals
+.modal {
+	margin: 15px;
 
+	&#message {
+		//background-color: $red;
+	}
+}
+
+#message {
+	margin-top: 30px;
+
+	.modal-header {
+		padding: 0 5px;
+		position: absolute;
+		width: 100%;
+	}
+
+	.modal-body {
+		padding-bottom: 0;
+		pointer-events: none;
+	}
+
+	&.error {
+		.modal-content {
+			background-color: $red;
+		}
+	}
+}
 
 
 

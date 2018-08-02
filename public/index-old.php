@@ -38,22 +38,6 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 
 <h1>Snipe+</h1>
 
-<div id="message" class="modal" role="dialog">
-    <div class="modal-content">
-        <div class="modal-header border-0">
-            <button type="button" class="close" data-dismiss="#message" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <p>Test content</p>
-        </div>
-    </div>
-</div>
-
-
-
-
 <ul id="actions-menu">
     <li class="active" data-action="checkin" data-hide-user=true>Checkin</li>
     <li data-action="checkout">Checkout</li>
