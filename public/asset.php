@@ -58,11 +58,14 @@ if ( $json['total'] != 0 ) {
 
 			// if it's checked out
 			if ( $assets[$x]['assigned_to'] != null ) {
-				$response_data = array( 'snipe_id'=>$snipe_id,
+				$response_data = array( 'asset_tag'=>$assets[$x]['asset_tag'],
+										'snipe_id'=>$snipe_id,
 										'assignee_id'=>$assets[$x]['assigned_to']['id'],
 										'assignee_name'=>$assets[$x]['assigned_to']['name'],
-										'checked_out_since'=>new DateTime($assets[$x]['last_checkout']['datetime']),
-										'expected_checkin'=>$assets[$x]['expected_checkin']['date']);
+										'checked_out_since'=>$assets[$x]['last_checkout']['datetime'],
+										'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
+										'model'=>$assets[$x]["model"]["name"]
+									);
 			}
 			// if it's not checked out
 			else {
@@ -74,7 +77,7 @@ if ( $json['total'] != 0 ) {
 
 
 echo json_encode(array( 'status'=>'success', 
-						'response'=>$response_data ));
+						'data'=>$response_data ));
 
 
 

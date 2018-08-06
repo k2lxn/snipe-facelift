@@ -63,6 +63,30 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     </div>
 </form>
 
+<div id="checkin-options" class="modal" role="">
+    <div class="modal-content">
+        <div class="modal-header border-0">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="#checkin-options" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Assigned to <span class="user-name"></span></p>
+            <p>Due back <span class="expected-checkin"></span></p>
+            <form id="checkin">
+                <input type="submit" value="Check in">
+            </form>
+            <form id="extend-loan">
+                <label for="extend-until">Extend until</label>
+                <input type="date" class="extend-until" name="extend-until" class="form-control">
+                <input type="submit" value="Extend">
+            </form>
+        </div>
+    </div>
+</div>
+
+
 </body>
 
 
@@ -71,3 +95,4 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 
 
 </html>
+

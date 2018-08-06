@@ -62,9 +62,42 @@ $(document).ready(function() {
 				$("#message.modal").css("display", "block");
 			}
 
+			// present action options
+			else {
+				if ( "assignee_id" in response["data"] ) {
+					console.log("This asset is currently checked out");
+					// open checkin form
+					populate_checkin_form( response["data"] );
+
+					$("#checkin-options.modal").css("display", "block");
+				}	
+
+				else {
+					// open checkout form
+					console.log("This asset is available");
+				}
+			}
+
 		});
 
 		return false;
 	});
 
 });
+
+
+function populate_checkin_form( data ) {
+	$("#checkin-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
+	$("#checkin-options .user-name").text( data["assignee_name"] );
+	$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
+	
+	// Set default extension to 1 week beyond current expected checkin
+	var currently_due = new Date( data["expected_checkin"] );
+	// correct for timezone
+	currently_due.setTime( currently_due.getTime() + currently_due.getTimezoneOffset()*60000 );
+	var default_date = new Date( currently_due );
+	default_date.setDate( currently_due.getDate() + 7 );
+	$("form#extend-loan .extend-until").val( default_date.toISOString().split('T')[0] );
+}
+
+
