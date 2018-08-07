@@ -53,12 +53,18 @@ function populate_checkin_form( data ) {
 	$("form#checkin input[name=snipe_id]").val( data["snipe_id"] );
 
 	// Set default extension to 1 week beyond current expected checkin
-	var currently_due = new Date( data["expected_checkin"] );
-	// correct for timezone
-	currently_due.setTime( currently_due.getTime() + currently_due.getTimezoneOffset()*60000 );
-	var default_date = new Date( currently_due );
-	default_date.setDate( currently_due.getDate() + 7 );
-	$("form#extend-loan .extend-until").val( default_date.toISOString().split('T')[0] );
+	if ( data["expected_checkin"] !== null ) {
+		var currently_due = new Date( data["expected_checkin"] );
+		// correct for timezone
+		currently_due.setTime( currently_due.getTime() + currently_due.getTimezoneOffset()*60000 );
+		var default_date = new Date( currently_due );
+	}
+	else {
+		default_date = new Date();
+	}
+	default_date.setDate( default_date.getDate() + 7 );
+	var default_date_string = default_date.toISOString().split('T')[0] ;
+	$("form#extend-loan .extend-until").val( default_date_string );
 }
 
 
