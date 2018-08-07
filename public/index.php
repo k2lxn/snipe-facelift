@@ -79,6 +79,9 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
                 <input type="submit" value="Check in">
             </form>
             <form id="extend-loan">
+                <input name='snipe_id' type='hidden'>
+                <input name='assignee_id' type='hidden'>
+                <input name='original_checkout_date' type='hidden'>
                 <label for="extend-until">Extend until</label>
                 <input type="date" class="extend-until" name="extend-until" class="form-control">
                 <input type="submit" value="Extend">

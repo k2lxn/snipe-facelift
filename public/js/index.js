@@ -43,14 +43,16 @@ function display_error( message ) {
 }
 
 
-function populate_checkin_form( data ) {
+function populate_checkin_or_extend( data ) {
 	// Display info
 	$("#checkin-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
 	$("#checkin-options .user-name").text( data["assignee_name"] );
 	$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
 	
-	// checkin
-	$("form#checkin input[name=snipe_id]").val( data["snipe_id"] );
+	// attach data to hidden fields
+	$("form input[name=snipe_id]").val( data["snipe_id"] );
+	$("form input[name=assignee_id]").val( data["assignee_id"] );
+	$("form input[name=original_checkout_date]").val( data["checked_out_since"] );
 
 	// Set default extension to 1 week beyond current expected checkin
 	if ( data["expected_checkin"] !== null ) {
@@ -98,7 +100,7 @@ $(document).ready(function() {
 				if ( "assignee_id" in response["data"] ) {
 					console.log("This asset is currently checked out");
 					// open checkin form
-					populate_checkin_form( response["data"] );
+					populate_checkin_or_extend( response["data"] );
 
 					$("#checkin-options.modal").css("display", "block");
 				}	
@@ -138,6 +140,9 @@ $(document).ready(function() {
 	// extend loan form
 	$("form#extend-loan").submit( function() {
 		var url = "checkin.php?" + $(this).serialize();
+		
+		//need to send assignee_id and snipe_id and original checkout_date
+
 		console.log( "url: " + url );
 
 /*

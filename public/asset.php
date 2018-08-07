@@ -49,7 +49,7 @@ if ( $json['total'] != 0 ) {
 										'snipe_id'=>$snipe_id,
 										'assignee_id'=>$assets[$x]['assigned_to']['id'],
 										'assignee_name'=>$assets[$x]['assigned_to']['name'],
-										'checked_out_since'=>$assets[$x]['last_checkout']['datetime'],
+										'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
 										'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
 										'model'=>$assets[$x]["model"]["name"]
 									);
