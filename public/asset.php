@@ -2,14 +2,7 @@
 require_once('../secrets.php');
 require_once('helpers/validation.php');
 
-// want to get: assigned_to, expected_checkin_date
-
-$target_tag;
-$snipe_id;
-$assignee_id;
-$assignee_name;
-$expected_checkin;
-
+// Make sure request is good
 if ( isset($_GET['asset']) ){
 	$requested_tag = $_GET['asset'] ;
 
@@ -50,12 +43,6 @@ if ( $json['total'] != 0 ) {
 		if ( strtolower( $asset_tag ) == $target_tag ) {
 			$snipe_id = $assets[$x]['id'];	
 
-			// Check that the asset tag is actually in Snipe
-			if ( $snipe_id == null ) {
-				echo json_encode(array( 'status'=>'error', 'message'=>'No matching asset found'));
-				exit(1);
-			}
-
 			// if it's checked out
 			if ( $assets[$x]['assigned_to'] != null ) {
 				$response_data = array( 'asset_tag'=>$assets[$x]['asset_tag'],
@@ -75,6 +62,11 @@ if ( $json['total'] != 0 ) {
 	}		
 }
 
+// Check that the asset tag is actually in Snipe
+if ( $snipe_id == null ) {
+	echo json_encode(array( 'status'=>'error', 'message'=>'Hi Jane. No matching asset found'));
+	exit(1);
+}
 
 echo json_encode(array( 'status'=>'success', 
 						'data'=>$response_data ));

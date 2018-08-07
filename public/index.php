@@ -75,6 +75,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
             <p>Assigned to <span class="user-name"></span></p>
             <p>Due back <span class="expected-checkin"></span></p>
             <form id="checkin">
+                <input name='snipe_id' type='hidden'>
                 <input type="submit" value="Check in">
             </form>
             <form id="extend-loan">

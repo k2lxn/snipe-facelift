@@ -13,4 +13,15 @@ function validate_asset_tag( $raw_request ) {
 	}
 }
 
+
+function validate_snipe_id( $raw_request ) {
+	if ( preg_match( '/^\d+$/', $raw_request, $matches ) ) {
+		$valid_snipe_id = $matches[0];
+		return $valid_snipe_id;
+	}
+	else {
+		return false;
+	}
+}
+
 ?>
