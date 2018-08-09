@@ -1,6 +1,7 @@
 <?php
 require_once('../secrets.php');
 require_once('helpers/validation.php');
+require_once('helpers/snipe_calls.php');
 
 $snipe_id;
 
@@ -24,6 +25,10 @@ $headers = array(
 	'Authorization: Bearer '.$access_token,
 );
 
+$response = checkin( $snipe_id, $headers ) ;
+echo $response ;
+
+/*
 $ch = curl_init('https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -42,5 +47,6 @@ if ( $json["status"] == "error" ) {
 else {
 	echo json_encode(array( 'status'=>'success', 'message'=>'Asset checked in') );
 }
+*/
 
 ?>

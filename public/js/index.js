@@ -131,6 +131,8 @@ $(document).ready(function() {
 				display_error( response["message"] );
 			}
 
+			// else, Display success message and close modal window
+
 		});	
 
 		return false;
@@ -139,18 +141,10 @@ $(document).ready(function() {
 
 	// extend loan form
 	$("form#extend-loan").submit( function() {
-		// checkin needs: snipe_id
-		var form_data = $(this).serialize();
+		var url = "extend-loan.php?" + $(this).serialize();
+		console.log( "url: " + url );
 
-		var checkin_url = "checkin.php?" + form_data.split("&")[0];
-		console.log( "checkin_url: " + checkin_url );
-
-		var checkout_url = "checkout.php?" + form_data;
-		console.log( "checkout_url: " + checkout_url );
-
-		// BUG: If request gets past checkin but then fails some checkout validation (ie date not in future), it will just be checked out
-
-		ajax_call( checkin_url, null, function( response ) {
+		ajax_call( url, null, function( response ){
 			response = JSON.parse(response);
 			console.log(response);
 
@@ -159,22 +153,9 @@ $(document).ready(function() {
 				display_error( response["message"] );
 			}
 
-			else {
-				// re-checkout; $snipe_id, assignee_id, checkout_date, new_checkin_date
-				ajax_call( checkout_url, null, function( response ) {
-					response = JSON.parse(response);
-					console.log(response);
+			// else, Display success message and close modal window
 
-					// Display error messages
-					if ( response["status"] === "error" ) {
-						display_error( response["message"] );
-					}
-				});
-
-			}
-
-		});	
-		
+		});
 
 		return false;
 	});
