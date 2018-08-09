@@ -4,10 +4,7 @@ require_once('helpers/validation.php');
 
 // Make sure request is good
 if ( isset($_GET['asset']) ){
-	$requested_tag = $_GET['asset'] ;
-
-	// do data sanitization
-	$target_tag = validate_asset_tag( $_GET['asset'] );
+	$target_tag = sanitize_asset_tag( $_GET['asset'] );
 
 	if ( $target_tag == false ) {
 		echo json_encode( array('status'=>'error', 'message'=>'Invalid asset tag' ) );

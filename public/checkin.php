@@ -5,10 +5,7 @@ require_once('helpers/validation.php');
 $snipe_id;
 
 if ( isset($_GET['snipe_id']) ){
-	$snipe_id = $_GET['snipe_id'] ;
-
-	// do data sanitization
-	$snipe_id = validate_snipe_id( $_GET['snipe_id'] );
+	$snipe_id = sanitize_snipe_id( $_GET['snipe_id'] );
 
 	if ( $snipe_id == false ) {
 		echo json_encode( array('status'=>'error', 'message'=>'Invalid snipe_id' ) );
