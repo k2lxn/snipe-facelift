@@ -6318,11 +6318,16 @@ form .form-control {
     box-shadow: unset; }
 
 .modal {
-  margin: 15px; }
+  padding: 15px; }
+  .modal:not(#message) {
+    padding-top: 100px;
+    background: rgba(0, 0, 0, 0.65); }
+  .modal .close {
+    text-shadow: none; }
 
 #message {
-  margin-top: 30px;
-  z-index: 2000; }
+  z-index: 2000;
+  color: rgba(0, 0, 0, 0.6); }
   #message .modal-header {
     padding: 0 5px;
     position: absolute;
@@ -6331,4 +6336,6 @@ form .form-control {
     padding-bottom: 0;
     pointer-events: none; }
   #message.error .modal-content {
-    background-color: #dc3545; }
+    background-color: #eb273a; }
+  #message.success .modal-content {
+    background-color: #1fd449; }

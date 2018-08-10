@@ -37,9 +37,15 @@ function ajax_call( url, params, callback ) {
 }
 
 function display_error( message ) {
-	$("#message").addClass("error");
+	$("#message").removeClass("success").addClass("error");
 	$("#message .modal-body p").text( message );
-	$("#message.modal").css("display", "block");
+	$("#message.modal").fadeIn( "fast" );
+}
+
+function display_success( message ) {
+	$("#message").removeClass("error").addClass("success");
+	$("#message .modal-body p").text( message );
+	$("#message.modal").fadeIn( "fast" );
 }
 
 
@@ -75,8 +81,7 @@ $(document).ready(function() {
 
 	// hook up close buttons for modals
 	$(".close").click( function(){
-		console.log("closing window");
-		$( $(this).data("dismiss") ).css("display", "none");
+		$( $(this).data("dismiss") ).fadeOut();
 	});
 
 	// asset request form
@@ -110,7 +115,6 @@ $(document).ready(function() {
 					console.log("This asset is available");
 				}
 			}
-
 		});
 
 		return false;
@@ -132,6 +136,10 @@ $(document).ready(function() {
 			}
 
 			// else, Display success message and close modal window
+			else if ( response["status"] === "success" ) {
+				display_success( response["message"] );
+				$("#checkin-options").fadeOut();
+			}
 
 		});	
 
@@ -154,6 +162,10 @@ $(document).ready(function() {
 			}
 
 			// else, Display success message and close modal window
+			else if ( response["status"] === "success" ) {
+				display_success( response["message"] );
+				$("#checkin-options").fadeOut();
+			}
 
 		});
 

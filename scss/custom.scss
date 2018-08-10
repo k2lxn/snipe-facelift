@@ -62,16 +62,21 @@ form {
 
 // Modals
 .modal {
-	margin: 15px;
+	padding: 15px;
 
-	&#message {
-		//background-color: $red;
+	&:not(#message) {
+		padding-top: 100px;
+		background: rgba(0,0,0,.65);
+	}
+
+	.close {
+		text-shadow: none;
 	}
 }
 
 #message {
-	margin-top: 30px;
 	z-index: 2000;
+	color: rgba(0,0,0,.7);
 
 	.modal-header {
 		padding: 0 5px;
@@ -84,9 +89,19 @@ form {
 		pointer-events: none;
 	}
 
+	.modal-content {
+		border-none;
+	}
+
 	&.error {
 		.modal-content {
-			background-color: $red;
+			background-color: #eb273a;
+		}
+	}
+
+	&.success {
+		.modal-content {
+			background-color: #1fd449;
 		}
 	}
 }
