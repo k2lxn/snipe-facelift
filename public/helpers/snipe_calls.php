@@ -1,5 +1,20 @@
 <?php
 
+
+function snipe_call( $url, $method, $headers ) {
+	$ch = curl_init( $url );
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers );
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method );
+
+	$data = curl_exec($ch);
+	curl_close($ch);
+
+	return $data ;
+}
+
+
+/*
 function checkin( $snipe_id, $headers ) {
 
 	$ch = curl_init('https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin');
@@ -53,5 +68,6 @@ function checkout( $snipe_id, $assignee_id, $checkout_date, $new_checkin_date, $
 	// Should never get here
 	return json_encode( array( 'status'=>'error', 'message'=>'Something went weirdly wrong' ) );
 }
+*/
 
 ?>

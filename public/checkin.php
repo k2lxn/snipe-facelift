@@ -25,28 +25,22 @@ $headers = array(
 	'Authorization: Bearer '.$access_token,
 );
 
-$response = checkin( $snipe_id, $headers ) ;
-echo $response ;
+$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin' ;
 
-/*
-$ch = curl_init('https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+$response = snipe_call( $url, 'POST', $headers );
 
-$data = curl_exec($ch);
-curl_close($ch);
-
-$json = json_decode($data, true);
+$json = json_decode($response, true);
 
 // echo snipe errors if any
 if ( $json["status"] == "error" ) {
-	echo json_encode(array( 'status'=>'error', 'message'=>$json["messages"]));
-	exit(1);
+	echo json_encode( array( 'status'=>'error', 'message'=>$json["messages"] ) );
 } 
-else {
-	echo json_encode(array( 'status'=>'success', 'message'=>'Asset checked in') );
+elseif ( $json["status"] == "success" ) {
+	echo json_encode( array( 'status'=>'success', 'message'=>'Asset checked in' ) );
 }
-*/
+else {
+	// Should never get here
+	echo json_encode( array( 'status'=>'error', 'message'=>'Something went weirdly wrong' ) );
+}
 
 ?>

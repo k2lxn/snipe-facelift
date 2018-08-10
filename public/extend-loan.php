@@ -67,25 +67,50 @@ if ( isset($_GET['new_checkin_date']) ){
 }
 
 
-// Snipe api call
+// Snipe api calls
+// checkin
 $access_token = $dev_token;
 $headers = array(
 	'Content-Type: application/json',
 	'Authorization: Bearer '.$access_token,
 );
 
-// checkin
-$response = checkin( $snipe_id, $headers ) ;
-$json = json_decode( $response, true ) ;
+$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin' ;
+
+$response = snipe_call( $url, 'POST', $headers );
+$json = json_decode($response, true);
+
+$success_message = "Loan extended to {$new_checkin_date}" ;
 
 if ( $json["status"] == "error" ) {
-	echo $response ;
+	echo json_encode( array( 'status'=>'error', 'message'=>$json["messages"] ) );
 	exit(1);
-}
+} 
 
 // re-checkout
-$response = checkout( $snipe_id, $assignee_id, $checkout_date, $new_checkin_date, $headers );
-echo $response ;
+elseif ( $json["status"] == "success" ) {
+
+	$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkout?checkout_to_type=user&assigned_user=' . $assignee_id . '&checkout_at=' . $checkout_date  . '&expected_checkin=' . $new_checkin_date ;
+
+	$response = snipe_call( $url, 'POST', $headers );
+	$json = json_decode($response, true);
+
+	if ( $json["status"] == "error" ) {
+		echo json_encode(array( 'status'=>'error', 'message'=>$json["messages"]));
+	}
+	elseif (  $json["status"] == "success"  ) {
+		echo json_encode( array('status'=>'success',
+						   'message'=>$success_message) );
+	}
+	else {
+		// Should never get here
+		echo json_encode( array( 'status'=>'error', 'message'=>'Something went weirdly wrong' ) );
+	}
+}
+else {
+	// Should never get here
+	echo json_encode( array( 'status'=>'error', 'message'=>'Something went weirdly wrong' ) );
+}
 
 ?>
 
