@@ -90,6 +90,36 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     </div>
 </div>
 
+<div id="checkout-options" class="modal" role="">
+    <div class="modal-content">
+        <div class="modal-header border-0">
+            <h5 class="modal-title"></h5>
+            <button type="button" class="close" data-dismiss="#checkout-options" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>This asset is available for checkout</p>
+            <form id="checkout">
+                <input name='snipe_id' type='hidden'>
+                <div class="form-row">
+                    <div class="col-form-label">
+                        <label for="netID">To</label>
+                    </div>
+                    <div class="col-6">    
+                        <input type="text" name="netID" class="form-control" required>
+                    </div>
+                </div> 
+                <div class="form-row">   
+                    <label for="expected_checkin" class="col-form-label">Until</label>
+                    <input type="date" class="extend-until" name="expected_checkin" class="form-control">
+                    <input type="submit" value="Checkout">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 </body>
 

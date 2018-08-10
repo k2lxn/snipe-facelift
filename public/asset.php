@@ -53,7 +53,9 @@ if ( $json['total'] != 0 ) {
 			}
 			// if it's not checked out
 			else {
-				$response_data = array( 'snipe_id'=>$snipe_id );
+				$response_data = array( 'snipe_id'=>$snipe_id,
+										'asset_tag'=>$assets[$x]['asset_tag'],
+										'model'=>$assets[$x]["model"]["name"] );
 			}	
 		}
 	}		

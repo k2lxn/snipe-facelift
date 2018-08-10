@@ -75,6 +75,11 @@ function populate_checkin_or_extend( data ) {
 	$("form#extend-loan .extend-until").val( default_date_string );
 }
 
+function populate_checkout( data ) {
+	// Display info
+	$("#checkout-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
+}
+
 
 /* DOM ready */
 $(document).ready(function() {
@@ -103,16 +108,16 @@ $(document).ready(function() {
 			// present action options
 			else {
 				if ( "assignee_id" in response["data"] ) {
-					console.log("This asset is currently checked out");
-					// open checkin form
+					// open checkin/extend form
 					populate_checkin_or_extend( response["data"] );
-
 					$("#checkin-options.modal").css("display", "block");
 				}	
 
 				else {
-					// open checkout form
 					console.log("This asset is available");
+					// open checkout form
+					populate_checkout( response["data"] );
+					$("#checkout-options.modal").css("display", "block");
 				}
 			}
 		});
@@ -168,6 +173,15 @@ $(document).ready(function() {
 			}
 
 		});
+
+		return false;
+	});
+
+
+	// checkout form
+	$("form#checkout").submit( function(){
+		var url = "checkout.php?" + $(this).serialize();
+		console.log( "url: " + url );
 
 		return false;
 	});
