@@ -112,7 +112,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
                 </div> 
                 <div class="form-row">   
                     <label for="expected_checkin" class="col-form-label">Until</label>
-                    <input type="date" class="extend-until" name="expected_checkin" class="form-control">
+                    <input type="date" class="extend-until" name="expected_checkin" class="form-control" required>
                     <input type="submit" value="Checkout">
                 </div>
             </form>

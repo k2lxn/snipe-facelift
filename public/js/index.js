@@ -78,6 +78,9 @@ function populate_checkin_or_extend( data ) {
 function populate_checkout( data ) {
 	// Display info
 	$("#checkout-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
+
+	// attach data to hidden fields
+	$("form#checkout input[name=snipe_id]").val( data["snipe_id"] );
 }
 
 
@@ -145,7 +148,6 @@ $(document).ready(function() {
 				display_success( response["message"] );
 				$("#checkin-options").fadeOut();
 			}
-
 		});	
 
 		return false;
@@ -171,7 +173,6 @@ $(document).ready(function() {
 				display_success( response["message"] );
 				$("#checkin-options").fadeOut();
 			}
-
 		});
 
 		return false;
@@ -182,6 +183,22 @@ $(document).ready(function() {
 	$("form#checkout").submit( function(){
 		var url = "checkout.php?" + $(this).serialize();
 		console.log( "url: " + url );
+
+		ajax_call( url, null, function( response ){
+			response = JSON.parse(response);
+			console.log(response);
+
+			// Display error messages
+			if ( response["status"] === "error" ) {
+				display_error( response["message"] );
+			}
+
+			// else, Display success message and close modal window
+			else if ( response["status"] === "success" ) {
+				display_success( response["message"] );
+				$("#checkin-options").fadeOut();
+			}
+		});
 
 		return false;
 	});

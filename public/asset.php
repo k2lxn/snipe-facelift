@@ -63,7 +63,7 @@ if ( $json['total'] != 0 ) {
 
 // Check that the asset tag is actually in Snipe
 if ( $snipe_id == null ) {
-	echo json_encode(array( 'status'=>'error', 'message'=>'Hi Jane. No matching asset found'));
+	echo json_encode(array( 'status'=>'error', 'message'=>'No matching asset found'));
 	exit(1);
 }
 

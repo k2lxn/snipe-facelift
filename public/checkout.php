@@ -1,12 +1,13 @@
 <?php
 require_once('../secrets.php');
 require_once('helpers/validation.php');
+require_once('helpers/snipe_calls.php');
 
-// need snipe_id, assignee_id, (optional) expected checkout, and (optional) checkout date (default to today)
 $snipe_id;
+$target_netID;
 $assignee_id;
-$checkout_date;
-$new_checkin_date;
+$assignee_name;
+$expected_checkin;
 
 // snipe_id validation
 if ( isset($_GET['snipe_id']) ){
@@ -24,51 +25,61 @@ else {
 
 
 // assignee_id validation
-// if extending, assignee_id should have been sent with request
-if ( isset($_GET['assignee_id']) ){
-	$assignee_id = sanitize_snipe_id( $_GET['assignee_id'] );
+if ( isset($_GET['netID']) ){
+	$target_netID = sanitize_netID( $_GET['netID'] );
 
-	if ( $assignee_id == false ) {
-		echo json_encode( array('status'=>'error', 'message'=>'Invalid Snipe user id' ) );
+	if ( $target_netID == false ) {
+		echo json_encode( array('status'=>'error', 'message'=>'Invalid netID' ) );
 		exit(1);
 	}
 }
-else {
-	echo json_encode( array('status'=>'error', 'message'=>'No assignee_id given' ) );
+
+// convert netID to assigneeID
+$url = 'https://ts.snipe-it.io/api/v1/users?search=' . $target_netID ;
+
+$access_token = $dev_token;
+$headers = array(
+	'Content-Type: application/json',
+	'Authorization: Bearer '.$access_token,
+);
+
+$results = snipe_call( $url, 'GET', $headers);
+$json = json_decode($results, true);
+
+if ( $json['total'] != 0 ) {
+	$users = $json['rows'];
+	for ($x = 0; $x < count($users); $x++) {
+		$netID = $users[$x]['username'];
+
+		if ( strtolower( $netID ) == strtolower( $target_netID ) ) {
+			$assignee_id = $users[$x]['id'] ;
+			$assignee_name = $users[$x]['name'] ;
+		}
+	}	
+}
+
+if ( $assignee_id == null ) {
+	echo json_encode(array( 'status'=>'error', 'message'=>'No matching user found'));
 	exit(1);
 }
 
-// if this is a new checkout, user netID needs to be validated and converted to snipe id
-// ...
-
 
 // date string validation
-if ( isset($_GET['checkout_date']) ){
-	$checkout_date = sanitize_date( $_GET['checkout_date'] );
+if ( isset($_GET['expected_checkin']) ){
+	$expected_checkin = sanitize_date( $_GET['expected_checkin'] );
 	
-	if ( $checkout_date == false ) {
-		echo json_encode( array('status'=>'error', 'message'=>'Invalid checkout date given. Use format YYYY-MM-DD.' ) );
-		exit(1);
-	}
-}
-// default to today's date
-else {
-	$checkout_date = date("Y-m-d");
-}
-
-if ( isset($_GET['new_checkin_date']) ){
-	$new_checkin_date = sanitize_date( $_GET['new_checkin_date'] );
-	
-	if ( $new_checkin_date == false ) {
+	if ( $expected_checkin == false ) {
 		echo json_encode( array('status'=>'error', 'message'=>'Invalid expected checkin date given. Use format YYYY-MM-DD.' ) );
 		exit(1);
 	}
 
-	if ( !date_is_in_future( $new_checkin_date ) ) {
+	if ( !date_is_in_future( $expected_checkin ) ) {
 		echo json_encode( array('status'=>'error', 'message'=>'Expected checkin date must be in the future.' ) );
 		exit(1);
 	}
 }
+
+$checkout_date = date("Y-m-d");
 
 
 // Snipe api call
@@ -78,28 +89,23 @@ $headers = array(
 	'Authorization: Bearer '.$access_token,
 );
 
+$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkout?checkout_to_type=user&assigned_user=' . $assignee_id . '&checkout_at=' . $checkout_date  . '&expected_checkin=' . $expected_checkin ;
 
-$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkout?checkout_to_type=user&assigned_user=' . $assignee_id . '&checkout_at=' . $checkout_date  . '&expected_checkin=' . $new_checkin_date;
+$response = snipe_call( $url, 'POST', $headers );
+$json = json_decode($response, true);
 
-$ch = curl_init( $url );
+$success_message = "Asset checked out to {$assignee_name} until {$expected_checkin}" ;
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-
-$data = curl_exec($ch);
-curl_close($ch);
-
-$json = json_decode($data, true);
-
-$success_message = "Loan extended to {$new_checkin_date}" ;
-
-if ( $json["status"] == "success") {
+if ( $json["status"] == "error" ) {
+	echo json_encode(array( 'status'=>'error', 'message'=>$json["messages"]));
+}
+elseif (  $json["status"] == "success"  ) {
 	echo json_encode( array('status'=>'success',
-							'message'=>$success_message) );
+					   'message'=>$success_message) );
 }
 else {
-	echo json_encode(array( 'status'=>'error', 'message'=>$json["messages"]));
+	// Should never get here
+	echo json_encode( array( 'status'=>'error', 'message'=>'Something went weirdly wrong' ) );
 }
 
 
