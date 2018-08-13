@@ -12,6 +12,16 @@ function sanitize_asset_tag( $raw_request ) {
 	return false;
 }
 
+function sanitize_netID( $raw_request ) {
+	$netID = strtolower( $raw_request );
+	
+	if ( preg_match('/^[fd][0-9a-zA-Z]{6}$/', $netID, $matches) ) {
+		$sanitized_netID = $matches[0];
+		return $sanitized_netID;
+	}
+
+	return false;
+}
 
 function sanitize_snipe_id( $raw_request ) {
 	if ( preg_match( '/^\d+$/', $raw_request, $matches ) ) {
@@ -44,6 +54,5 @@ function date_is_in_future( $date_string ) {
 
 	return false;	
 }
-
 
 ?>
