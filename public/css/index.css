@@ -6308,6 +6308,9 @@ ul#actions-menu {
 form .form-row {
   padding: 5px 0; }
 
+form input[type="submit"] {
+  margin-left: 10px; }
+
 form .form-control {
   border-radius: 0px;
   border-color: #fff;
@@ -6324,10 +6327,13 @@ form .form-control {
     background: rgba(0, 0, 0, 0.65); }
   .modal .close {
     text-shadow: none; }
+  .modal .modal-content {
+    max-width: 700px;
+    margin: 0 auto; }
 
 #message {
   z-index: 2000;
-  color: rgba(0, 0, 0, 0.6); }
+  color: rgba(0, 0, 0, 0.7); }
   #message .modal-header {
     padding: 0 5px;
     position: absolute;
@@ -6335,6 +6341,8 @@ form .form-control {
   #message .modal-body {
     padding-bottom: 0;
     pointer-events: none; }
+  #message .modal-content {
+    border: none; }
   #message.error .modal-content {
     background-color: #eb273a; }
   #message.success .modal-content {

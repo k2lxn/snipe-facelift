@@ -73,10 +73,11 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
         </div>
         <div class="modal-body">
             <p>Assigned to <span class="user-name"></span></p>
-            <p>Due back <span class="expected-checkin"></span></p>
+            <!--<p>Due back <span class="expected-checkin"></span></p>-->
             <form id="checkin">
                 <input name='snipe_id' type='hidden'>
-                <input type="submit" value="Check in">
+                <label for="check_in" class="col-form-label"><p>Due back <span class="expected-checkin"></span></p></label>
+                <input type="submit" name="check_in" value="Check in" class="btn btn-primary">
             </form>
             <form id="extend-loan">
                 <input name='snipe_id' type='hidden'>
@@ -84,7 +85,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
                 <input name='original_checkout_date' type='hidden'>
                 <label for="new_checkin_date">Extend until</label>
                 <input type="date" class="extend-until" name="new_checkin_date" class="form-control">
-                <input type="submit" value="Extend">
+                <input type="submit" value="Extend" class="btn btn-primary">
             </form>
         </div>
     </div>
@@ -107,13 +108,13 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
                         <label for="netID">To</label>
                     </div>
                     <div class="col-6">    
-                        <input type="text" name="netID" class="form-control" required>
+                        <input type="text" name="netID" class="form-control" placeholder="netID" required>
                     </div>
                 </div> 
                 <div class="form-row">   
                     <label for="expected_checkin" class="col-form-label">Until</label>
                     <input type="date" class="extend-until" name="expected_checkin" class="form-control" required>
-                    <input type="submit" value="Checkout">
+                    <input type="submit" value="Checkout" class="btn btn-primary">
                 </div>
             </form>
         </div>
