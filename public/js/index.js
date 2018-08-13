@@ -196,7 +196,7 @@ $(document).ready(function() {
 			// else, Display success message and close modal window
 			else if ( response["status"] === "success" ) {
 				display_success( response["message"] );
-				$("#checkin-options").fadeOut();
+				$("#checkout-options").fadeOut();
 			}
 		});
 
