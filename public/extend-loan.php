@@ -1,7 +1,8 @@
 <?php
-require_once('../secrets.php');
-require_once('helpers/validation.php');
-require_once('helpers/snipe_calls.php');
+require_once( '../config.php' );
+require_once( $path_to_secrets . 'secrets.php' );
+require_once( $path_to_includes .'validation.php' );
+require_once( $path_to_includes . 'snipe_calls.php' );
 
 // need snipe_id, assignee_id, (optional) expected checkout, and (optional) checkout date (default to today)
 $snipe_id;
