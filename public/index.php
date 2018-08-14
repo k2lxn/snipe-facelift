@@ -1,5 +1,6 @@
 <?php
 require_once( '../CAS-1.3.3/CAS.php' ) ;
+require_once( '../allowed-users.php' ) ;
 
 // initialize phpCAS
 phpCAS::client( CAS_VERSION_2_0, 'login.dartmouth.edu', 443, 'cas' ) ;
@@ -15,11 +16,14 @@ phpCAS::forceAuthentication();
 if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     if( !isset($_SESSION['username']) ) {
         $username = phpCAS::getAttribute( 'netid' ) ;
-			//echo "<p> User: " . $username . "</p>" ;
+        if ( !in_array($username, $allowed_users) ) {
+            echo "Sorry, you don't have permission to use this tool" ;
+            exit( 0 ) ;
+        }
     }
 } else {
     echo "Sorry, you are not in the dartmouth.edu realm." ;
-    exit( 1 ) ;
+    exit( 0 ) ;
 }
 
 ?>
