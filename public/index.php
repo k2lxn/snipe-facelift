@@ -1,5 +1,5 @@
 <?php
-require_once( '../config.php' ) ;
+require_once( 'config.php' ) ;
 require_once( $path_to_secrets . 'CAS-1.3.3/CAS.php' ) ;
 require_once( $path_to_secrets . 'allowed-users.php' ) ;
 
