@@ -53,7 +53,11 @@ function populate_checkin_or_extend( data ) {
 	// Display info
 	$("#checkin-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
 	$("#checkin-options .user-name").text( data["assignee_name"] );
-	$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
+	if ( data["expected_checkin"] !== null ) {
+		$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
+	} else {
+		$("#checkin-options .expected-checkin").text( "date not set ..." );
+	}
 	
 	// attach data to hidden fields
 	$("form input[name=snipe_id]").val( data["snipe_id"] );
