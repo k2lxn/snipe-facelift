@@ -36,16 +36,30 @@ function ajax_call( url, params, callback ) {
     xmlhttp.send( params ) ; // params need to be converted to a FormData object??
 }
 
+var message_timeout;
+
+function hide_message( ms_duration ) {
+	// set default timeout wait
+	ms_duration = (typeof ms_duration === 'number' ) ? ms_duration : 2600;
+	
+	clearTimeout(message_timeout);
+	message_timeout = setTimeout(function(){
+		$("#message").fadeOut();
+	}, ms_duration);
+}
+
 function display_error( message ) {
 	$("#message").removeClass("success").addClass("error");
 	$("#message .modal-body p").text( message );
 	$("#message.modal").fadeIn( "fast" );
+	hide_message();
 }
 
 function display_success( message ) {
 	$("#message").removeClass("error").addClass("success");
 	$("#message .modal-body p").text( message );
 	$("#message.modal").fadeIn( "fast" );
+	hide_message();
 }
 
 
