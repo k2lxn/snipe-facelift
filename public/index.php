@@ -33,7 +33,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title>Snipe API playground</title>
+    <title>Snipe+</title>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
     
     <link rel="stylesheet" href="css/index.css" />
@@ -58,13 +58,9 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
 
 <form id="get-asset">
     <div class="form-row">
-        <label for="asset" class="col-1 col-form-label">Asset</label>
-        <div class="col-6">
-            <input type="text" id="asset" name="asset" class="form-control" required>
-        </div>
-        <div class="col-1">
-            <input type="submit" value="Go" class="btn btn-primary" data-action="asset">
-        </div>
+    <label for="asset" class="col-form-label">Asset</label>
+    <input type="text" id="asset" name="asset" class="form-control" required>
+    <input type="submit" value="Go" class="btn btn-primary">
     </div>
 </form>
 

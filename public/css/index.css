@@ -6284,26 +6284,13 @@ a.text-dark:hover, a.text-dark:focus {
 
 body {
   padding: 15px 30px; }
+  @media (max-width: 460px) {
+    body {
+      padding: 15px 10px; } }
 
 h1 {
   font-size: 2em;
   margin-bottom: 15px; }
-
-ul#actions-menu {
-  list-style-type: none;
-  padding: 0; }
-  ul#actions-menu li {
-    display: inline-block;
-    font-size: 1.5em;
-    padding: 0 10px;
-    margin-right: 10px;
-    cursor: default; }
-    ul#actions-menu li.active {
-      border-bottom: 3px solid #007bff; }
-    ul#actions-menu li:hover {
-      background-color: #dee2e6; }
-  ul#actions-menu li:first-of-type {
-    margin-left: -10px; }
 
 form .form-row {
   padding: 5px 0; }
@@ -6319,6 +6306,17 @@ form .form-control {
     border-color: #fff;
     border-bottom: 2px solid #495057;
     box-shadow: unset; }
+
+form#get-asset {
+  margin-top: 50px; }
+  form#get-asset .form-row {
+    display: flex;
+    justify-content: center; }
+  form#get-asset input[type=text].form-control {
+    width: 300px; }
+    @media (max-width: 460px) {
+      form#get-asset input[type=text].form-control {
+        width: calc(100% - 120px); } }
 
 .modal {
   padding: 15px; }
