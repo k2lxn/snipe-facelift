@@ -6292,6 +6292,9 @@ h1 {
   font-size: 2em;
   margin-bottom: 15px; }
 
+.overdue {
+  color: #eb273a; }
+
 form .form-row {
   padding: 5px 0; }
 

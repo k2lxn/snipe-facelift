@@ -64,25 +64,36 @@ function display_success( message ) {
 
 
 function populate_checkin_or_extend( data ) {
-	// Display info
-	$("#checkin-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
-	$("#checkin-options .user-name").text( data["assignee_name"] );
-	if ( data["expected_checkin"] !== null ) {
-		$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
-	} else {
-		$("#checkin-options .expected-checkin").text( "date not set ..." );
-	}
-	
 	// attach data to hidden fields
 	$("form input[name=snipe_id]").val( data["snipe_id"] );
 	$("form input[name=assignee_id]").val( data["assignee_id"] );
 	$("form input[name=original_checkout_date]").val( data["checked_out_since"] );
 
+	// Display info
+	$("#checkin-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
+	$("#checkin-options .user-name").text( data["assignee_name"] );
+	
+	var currently_due = new Date( data["expected_checkin"] );
+	// correct for timezone
+	currently_due.setTime( currently_due.getTime() + currently_due.getTimezoneOffset()*60000 );
+	var today = new Date();
+	
+	// expected checkin
+	if ( data["expected_checkin"] !== null ) {
+		$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
+		if ( today > currently_due ) {
+			$("#checkin-options .expected-checkin").addClass("overdue");
+		}
+		else {
+			$("#checkin-options .expected-checkin").removeClass("overdue");
+		}
+
+	} else {
+		$("#checkin-options .expected-checkin").text( "date not set ..." );
+	}
+
 	// Set default extension to 1 week beyond current expected checkin
 	if ( data["expected_checkin"] !== null ) {
-		var currently_due = new Date( data["expected_checkin"] );
-		// correct for timezone
-		currently_due.setTime( currently_due.getTime() + currently_due.getTimezoneOffset()*60000 );
 		var default_date = new Date( currently_due );
 	}
 	else {
