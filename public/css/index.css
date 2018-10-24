@@ -6292,8 +6292,23 @@ h1 {
   font-size: 2em;
   margin-bottom: 15px; }
 
+h2 {
+  font-size: 1.5em; }
+
 .overdue {
   color: #eb273a; }
+
+.hidden {
+  display: none; }
+
+#checkin-options, #checkout-options {
+  margin-top: 30px;
+  background-color: #eee;
+  padding: 15px;
+  border-radius: 5px; }
+  #checkin-options ul, #checkout-options ul {
+    list-style-type: none;
+    padding: 0; }
 
 form .form-row {
   padding: 5px 0; }
@@ -6310,15 +6325,17 @@ form .form-control {
     border-bottom: 2px solid #495057;
     box-shadow: unset; }
 
-form#get-asset {
+form .col-form-label {
+  width: 65px; }
+
+form#get-asset, form#get-person {
   margin-top: 50px; }
-  form#get-asset .form-row {
-    display: flex;
-    justify-content: center; }
-  form#get-asset input[type=text].form-control {
+  form#get-asset .form-row, form#get-person .form-row {
+    display: flex; }
+  form#get-asset input[type=text].form-control, form#get-person input[type=text].form-control {
     width: 300px; }
     @media (max-width: 460px) {
-      form#get-asset input[type=text].form-control {
+      form#get-asset input[type=text].form-control, form#get-person input[type=text].form-control {
         width: calc(100% - 120px); } }
 
 .modal {

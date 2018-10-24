@@ -13,9 +13,30 @@ h1 {
 	margin-bottom: 15px;
 }
 
+h2 {
+	font-size: 1.5em;
+}
+
 .overdue {
 	color: #eb273a;
 }
+
+.hidden {
+	display: none ;
+}
+
+#checkin-options, #checkout-options {
+	margin-top: 30px;
+	background-color: #eee;
+	padding: 15px;
+	border-radius: 5px;
+
+	ul {
+		list-style-type: none;
+		padding: 0;
+	}
+}
+
 
 
 // Forms
@@ -39,14 +60,18 @@ form {
 			box-shadow: unset;
 		}
 	}
+
+	.col-form-label {
+		width: 65px;
+	}
 }
 
-form#get-asset {
+form#get-asset, form#get-person {
 	margin-top: 50px;
 
 	.form-row {
 		display: flex;
-		justify-content: center;
+		//justify-content: center;
 	}
 	input[type=text].form-control {
 		width: 300px;

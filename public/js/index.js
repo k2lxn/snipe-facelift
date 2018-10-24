@@ -64,49 +64,51 @@ function display_success( message ) {
 
 
 function populate_checkin_or_extend( data ) {
-	// attach data to hidden fields
-	$("form input[name=snipe_id]").val( data["snipe_id"] );
-	$("form input[name=assignee_id]").val( data["assignee_id"] );
-	$("form input[name=original_checkout_date]").val( data["checked_out_since"] );
+	// clear any previous results
+	$("#assigned-assets ul").html(""); 
 
-	// Display info
-	$("#checkin-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
-	$("#checkin-options .user-name").text( data["assignee_name"] );
-	
-	var currently_due = new Date( data["expected_checkin"] );
-	// correct for timezone
-	currently_due.setTime( currently_due.getTime() + currently_due.getTimezoneOffset()*60000 );
-	var today = new Date();
-	
-	// expected checkin
-	if ( data["expected_checkin"] !== null ) {
-		$("#checkin-options .expected-checkin").text( data["expected_checkin"] );
-		if ( today > currently_due ) {
-			$("#checkin-options .expected-checkin").addClass("overdue");
-		}
-		else {
-			$("#checkin-options .expected-checkin").removeClass("overdue");
-		}
+	// hidden fields
+	$("#checkin-options input[name=assignee_id]").val( data["user_id"] );
 
-	} else {
-		$("#checkin-options .expected-checkin").text( "date not set ..." );
-	}
+	// display name
+	$("#checkin-options .user-name").text( data["user_name"] );
 
-	// Set default extension to 1 week beyond current expected checkin
-	if ( data["expected_checkin"] !== null ) {
-		var default_date = new Date( currently_due );
+	// if data.length > 0, for each in data, grab #asset-listing template
+	var listing_template = document.getElementById("asset-listing").innerHTML;
+
+	if ( "assets" in data ) {
+		var latest_due = new Date();
+
+		data["assets"].forEach( function( asset ){
+			var due_date = asset["expected_checkin"] !== null ? asset["expected_checkin"] : "date not set" ;
+
+			var listing = listing_template.replace(/{{snipe_id}}/g, asset["snipe_id"])
+										.replace(/{{asset_tag}}/g, asset["asset_tag"])
+										.replace(/{{model}}/g, asset["model"]) 
+										.replace(/{{checked_out_since}}/g, asset["checked_out_since"])
+										.replace(/{{expected_checkin}}/g, due_date);
+
+			$("#assigned-assets ul").append( listing ) ;
+
+			// if expected_checkin > latest_due, latest_due = expected_checkin 
+			//console.log("due_date: " + due_date );
+			if ( new Date(due_date) > new Date(latest_due) ) {
+				latest_due = due_date ;
+			}
+		});
+
+		// set default datepicker date to latest_due
+		var default_date = new Date( latest_due );
+		default_date.setDate( default_date.getDate() + 7 );
+		var default_date_string = default_date.toISOString().split('T')[0] ;
+		$("#checkin-options .extend-until").val( default_date_string );
+
 	}
-	else {
-		default_date = new Date();
-	}
-	default_date.setDate( default_date.getDate() + 7 );
-	var default_date_string = default_date.toISOString().split('T')[0] ;
-	$("form#extend-loan .extend-until").val( default_date_string );
 }
 
 function populate_checkout( data ) {
 	// Display info
-	$("#checkout-options .modal-title").html( data["asset_tag"] + " - " + data["model"] );
+	$("#checkout-options h2").html( data["asset_tag"] + " - " + data["model"] );
 
 	// attach data to hidden fields
 	$("form#checkout input[name=snipe_id]").val( data["snipe_id"] );
@@ -139,17 +141,17 @@ $(document).ready(function() {
 
 			// present action options
 			else {
-				if ( "assignee_id" in response["data"] ) {
+				if ( "user_id" in response["data"] ) {
 					// open checkin/extend form
 					populate_checkin_or_extend( response["data"] );
-					$("#checkin-options.modal").css("display", "block");
+					$("#checkin-options").fadeIn();
 				}	
 
 				else {
 					console.log("This asset is available");
 					// open checkout form
 					populate_checkout( response["data"] );
-					$("#checkout-options.modal").css("display", "block");
+					$("#checkout-options").fadeIn();
 				}
 			}
 		});
@@ -158,9 +160,9 @@ $(document).ready(function() {
 	});
 
 
-	// checkin form
-	$("form#checkin").submit( function() {
-		var url = "checkin.php?" + $(this).serialize();
+	// person request form
+	$("form#get-person").submit( function() {
+		var url = "person.php?" + $(this).serialize();
 		console.log( "url: " + url );
 
 		ajax_call( url, null, function( response ) {
@@ -169,45 +171,80 @@ $(document).ready(function() {
 
 			// Display error messages
 			if ( response["status"] === "error" ) {
-				display_error( response["message"] );
+				$("#message").addClass("error");
+				$("#message .modal-body p").text( response["message"] );
+				$("#message.modal").css("display", "block");
 			}
 
-			// else, Display success message and close modal window
-			else if ( response["status"] === "success" ) {
-				display_success( response["message"] );
-				$("#checkin-options").fadeOut();
+			// present action options
+			else {
+				populate_checkin_or_extend( response["data"] );
+				$("#checkin-options").fadeIn();
 			}
-		});	
-
-		return false;
-	});
-
-
-	// extend loan form
-	$("form#extend-loan").submit( function() {
-		var url = "extend-loan.php?" + $(this).serialize();
-		console.log( "url: " + url );
-
-		ajax_call( url, null, function( response ){
-			response = JSON.parse(response);
-			console.log(response);
-
-			// Display error messages
-			if ( response["status"] === "error" ) {
-				display_error( response["message"] );
-			}
-
-			// else, Display success message and close modal window
-			else if ( response["status"] === "success" ) {
-				display_success( response["message"] );
-				$("#checkin-options").fadeOut();
-			}
+			
 		});
 
 		return false;
 	});
 
+	
+	$("#checkin").click( function(){
+		// call checkin once for each selected asset
+		$("#assigned-assets input[type='checkbox']").each( function() { 
+			if ( this.checked === true ) {
+				var url = "checkin.php?snipe_id=" + $(this).val() ;
+				console.log( url );
 
+				ajax_call( url, null, function( response ) {
+					response = JSON.parse(response);
+					console.log(response);
+
+					// Display error messages
+					if ( response["status"] === "error" ) {
+						display_error( response["message"] );
+					}
+
+					// else, Display success message and hide #checkin-options
+					else if ( response["status"] === "success" ) {
+						display_success( response["message"] );
+						$("#checkin-options").fadeOut();
+					}
+				});	
+			}
+		});
+	});
+
+
+	$("#extend-loan").click( function() {
+		// need: $snipe_id; $assignee_id; $checkout_date; $new_checkin_date;
+		console.log( $("#assigned-assets").serialize() );
+
+		$("#assigned-assets input[type='checkbox']").each( function() { 
+			if ( this.checked === true ){
+				var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val() ; // ADD DATE DATA
+				console.log( "url: " + url );
+
+				ajax_call( url, null, function( response ){
+					response = JSON.parse(response);
+					console.log(response);
+
+					// Display error messages
+					if ( response["status"] === "error" ) {
+						display_error( response["message"] );
+					}
+
+					// else, Display success message and close modal window
+					else if ( response["status"] === "success" ) {
+						display_success( response["message"] );
+						$("#checkin-options").fadeOut();
+					}
+				});
+			}
+		});
+
+	});
+
+	
 	// checkout form
 	$("form#checkout").submit( function(){
 		var url = "checkout.php?" + $(this).serialize();

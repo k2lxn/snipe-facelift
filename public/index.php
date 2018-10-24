@@ -3,6 +3,7 @@ require_once( 'config.php' ) ;
 require_once( $path_to_secrets . 'CAS-1.3.3/CAS.php' ) ;
 require_once( $path_to_secrets . 'allowed-users.php' ) ;
 
+/* * * * *
 // initialize phpCAS
 phpCAS::client( CAS_VERSION_2_0, 'login.dartmouth.edu', 443, 'cas' ) ;
 #phpCAS::client( CAS_VERSION_2_0, 'login-preprod.dartmouth.edu', 443, '/cas' ) ;
@@ -26,7 +27,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     echo "Sorry, you are not in the dartmouth.edu realm." ;
     exit( 0 ) ;
 }
-
+* * * * * */
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -64,6 +65,14 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     </div>
 </form>
 
+<form id="get-person">
+    <div class="form-row">
+    <label for="person" class="col-form-label">Person</label>
+    <input type="text" id="person" name="person" class="form-control" required>
+    <input type="submit" value="Go" class="btn btn-primary">
+    </div>
+</form>
+<!--
 <div id="checkin-options" class="modal" role="">
     <div class="modal-content">
         <div class="modal-header border-0">
@@ -74,7 +83,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
         </div>
         <div class="modal-body">
             <p>Assigned to <span class="user-name"></span></p>
-            <!--<p>Due back <span class="expected-checkin"></span></p>-->
+
             <form id="checkin">
                 <input name='snipe_id' type='hidden'>
                 <label for="check_in" class="col-form-label"><p>Due back <span class="expected-checkin"></span></p></label>
@@ -91,7 +100,71 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
         </div>
     </div>
 </div>
+-->
 
+<!-- CHECK IN -->
+<div id="checkin-options" class="hidden" role="">
+    <button type="button" class="close" data-dismiss="#checkin-options" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    
+    <h2>Assigned to <span class="user-name"></span>:</h2>
+
+    <form id="assigned-assets">
+        <input name='assignee_id' type='hidden'>  
+        <ul> </ul> 
+
+        <!-- li template -->
+        <script id="asset-listing" type="text/template">
+            <li>
+                <input type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}">
+                {{asset_tag}}, {{model}} - Due {{expected_checkin}}
+            </li>
+        </script> 
+        
+    </form>
+
+    <button id="checkin" class="btn btn-primary">Check in</button>
+    <span>&nbsp;or&nbsp;</span>
+
+    <button id="extend-loan" class="btn btn-primary">Extend</button>
+    <span>&nbsp;until</span>
+    <input type="date" class="extend-until" name="new_checkin_date" class="form-control">
+
+</div>
+
+
+<!-- CHECKOUT -->
+
+<div id="checkout-options" class="hidden" role="">
+    <button type="button" class="close" data-dismiss="#checkout-options" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+
+    <h2></h2>
+    <p>This asset is available for checkout</p>
+
+    <form id="checkout">
+        <input name='snipe_id' type='hidden'>
+        <div class="form-row">
+            <div class="col-form-label">
+                <label for="netID">To</label>
+            </div>
+            <div class="col-6">    
+                <input type="text" name="netID" class="form-control" placeholder="netID" required>
+            </div>
+        </div> 
+        <div class="form-row">   
+            <label for="expected_checkin" class="col-form-label">Until</label>
+            <input type="date" class="extend-until" name="expected_checkin" class="form-control" required>
+            <input type="submit" value="Checkout" class="btn btn-primary">
+        </div>
+    </form>
+</div>
+
+
+
+<!--
 <div id="checkout-options" class="modal" role="">
     <div class="modal-content">
         <div class="modal-header border-0">
@@ -121,7 +194,7 @@ if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
         </div>
     </div>
 </div>
-
+-->
 
 </body>
 

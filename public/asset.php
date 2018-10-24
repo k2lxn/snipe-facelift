@@ -45,10 +45,12 @@ if ( $json['total'] != 0 ) {
 
 			// if it's checked out
 			if ( $assets[$x]['assigned_to'] != null ) {
-				$response_data = array( 'asset_tag'=>$assets[$x]['asset_tag'],
+				$response_data = array( 'user_id'=>$assets[$x]['assigned_to']['id'], 'user_name'=>$assets[$x]['assigned_to']['name'] );
+
+				$response_data["assets"][] = array( 'asset_tag'=>$assets[$x]['asset_tag'],
 										'snipe_id'=>$snipe_id,
-										'assignee_id'=>$assets[$x]['assigned_to']['id'],
-										'assignee_name'=>$assets[$x]['assigned_to']['name'],
+										//'assignee_id'=>$assets[$x]['assigned_to']['id'],
+										//'assignee_name'=>$assets[$x]['assigned_to']['name'],
 										'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
 										'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
 										'model'=>$assets[$x]["model"]["name"]
