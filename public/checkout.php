@@ -4,6 +4,8 @@ require_once( $path_to_secrets . 'secrets.php' );
 require_once( $path_to_includes .'validation.php' );
 require_once( $path_to_includes . 'snipe_calls.php' );
 
+session_start();
+
 $snipe_id;
 $target_netID;
 $assignee_id;
@@ -101,8 +103,7 @@ if ( $json["status"] == "error" ) {
 	echo json_encode(array( 'status'=>'error', 'message'=>$json["messages"]));
 }
 elseif (  $json["status"] == "success"  ) {
-	echo json_encode( array('status'=>'success',
-					   'message'=>$success_message) );
+	echo json_encode( array('status'=>'success', 'message'=>$success_message, 'tech'=>$_SESSION['tech_id'] ) );
 }
 else {
 	// Should never get here
