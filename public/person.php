@@ -2,6 +2,7 @@
 require_once( 'config.php' );
 require_once( $path_to_secrets . 'secrets.php' );
 require_once( $path_to_includes . 'validation.php' );
+require_once( $path_to_includes . 'snipe_calls.php' );
 
 // Make sure request is good
 if ( isset($_GET['person']) ){

@@ -104,6 +104,10 @@ if ( $json["status"] == "error" ) {
 }
 elseif (  $json["status"] == "success"  ) {
 	echo json_encode( array('status'=>'success', 'message'=>$success_message, 'tech'=>$_SESSION['tech_id'] ) );
+
+	// update "Last snipeplus user" field for asset
+	$url =  'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '?_snipeit_last_snipeplus_user_13=' . $_SESSION['tech_id'];
+	snipe_call( $url, 'PATCH', $headers );
 }
 else {
 	// Should never get here
