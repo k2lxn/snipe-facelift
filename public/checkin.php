@@ -7,6 +7,7 @@ require_once( $path_to_includes . 'snipe_calls.php' );
 session_start();
 
 $snipe_id;
+$asset_name;
 
 if ( isset($_GET['snipe_id']) ){
 	$snipe_id = sanitize_snipe_id( $_GET['snipe_id'] );
@@ -21,6 +22,20 @@ else {
 	exit(1);
 }
 
+if ( isset($_GET['asset_name']) ){
+	$asset_name = sanitize_asset_name( $_GET['asset_name'] );
+
+	if ( $asset_name == false ) {
+		echo json_encode( array('status'=>'error', 'message'=>'Invalid asset_name' ) );
+		exit(1);
+	}
+}
+else {
+	echo json_encode( array('status'=>'error', 'message'=>'Unless otherwise specified, asset_name will be set to an empty string' ) );
+	exit(1);
+}
+
+
 // Snipe api call
 $access_token = $dev_token;
 $headers = array(
@@ -28,7 +43,7 @@ $headers = array(
 	'Authorization: Bearer '.$access_token,
 );
 
-$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin' ;
+$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin?name=' . $asset_name;
 
 $response = snipe_call( $url, 'POST', $headers );
 

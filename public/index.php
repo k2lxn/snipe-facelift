@@ -95,7 +95,7 @@ if( !isset($_SESSION['tech_id']) ) {
         <!-- li template -->
         <script id="asset-listing" type="text/template">
             <li>
-                <input type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}">
+                <input type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
                 {{asset_tag}}, {{model}} - Due {{expected_checkin}}
             </li>
         </script> 

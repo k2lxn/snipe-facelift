@@ -82,11 +82,15 @@ function populate_checkin_or_extend( data ) {
 		data["assets"].forEach( function( asset ){
 			var due_date = asset["expected_checkin"] !== null ? asset["expected_checkin"] : "date not set" ;
 
+			console.log("The name as it's inserted into the checkin form: ");
+			console.log( asset["asset_name"]);
+
 			var listing = listing_template.replace(/{{snipe_id}}/g, asset["snipe_id"])
 										.replace(/{{asset_tag}}/g, asset["asset_tag"])
 										.replace(/{{model}}/g, asset["model"]) 
 										.replace(/{{checked_out_since}}/g, asset["checked_out_since"])
-										.replace(/{{expected_checkin}}/g, due_date);
+										.replace(/{{expected_checkin}}/g, due_date)
+										.replace(/{{asset_name}}/g, asset["asset_name"]);
 
 			$("#assigned-assets ul").append( listing ) ;
 
@@ -142,6 +146,9 @@ $(document).ready(function() {
 			// present action options
 			else {
 				if ( "user_id" in response["data"] ) {
+					console.log("The name when it arrives from asset.php: ");
+					console.log( response["data"]["assets"][0]["asset_name"]);
+
 					// open checkin/extend form
 					populate_checkin_or_extend( response["data"] );
 					$("#checkin-options").fadeIn();
@@ -192,7 +199,10 @@ $(document).ready(function() {
 		// call checkin once for each selected asset
 		$("#assigned-assets input[type='checkbox']").each( function() { 
 			if ( this.checked === true ) {
-				var url = "checkin.php?snipe_id=" + $(this).val() ;
+				console.log( $(this).data() );
+				console.log("asset_name: " + $(this).data("asset_name") );
+
+				var url = "checkin.php?snipe_id=" + $(this).val() + "&asset_name=" + $(this).data("asset_name") ;
 				console.log( url );
 
 				ajax_call( url, null, function( response ) {
@@ -210,6 +220,7 @@ $(document).ready(function() {
 						$("#checkin-options").fadeOut();
 					}
 				});	
+
 			}
 		});
 	});
@@ -221,7 +232,7 @@ $(document).ready(function() {
 
 		$("#assigned-assets input[type='checkbox']").each( function() { 
 			if ( this.checked === true ){
-				var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val() ; // ADD DATE DATA
+				var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val() + "&asset_name=" + $(this).data("asset_name"); // ADD DATE DATA
 				console.log( "url: " + url );
 
 				ajax_call( url, null, function( response ){

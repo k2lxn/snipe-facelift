@@ -11,6 +11,7 @@ $snipe_id;
 $assignee_id;
 $checkout_date;
 $new_checkin_date;
+$asset_name;
 
 // snipe_id validation
 if ( isset($_GET['snipe_id']) ){
@@ -26,6 +27,19 @@ else {
 	exit(1);
 }
 
+//validate asset_name
+if ( isset($_GET['asset_name']) ){
+	$asset_name = sanitize_asset_name( $_GET['asset_name'] );
+
+	if ( $asset_name == false ) {
+		echo json_encode( array('status'=>'error', 'message'=>'Invalid asset_name' ) );
+		exit(1);
+	}
+}
+else {
+	echo json_encode( array('status'=>'error', 'message'=>'Unless otherwise specified, asset_name will be set to an empty string' ) );
+	exit(1);
+}
 
 // assignee_id validation
 if ( isset($_GET['assignee_id']) ){
@@ -78,7 +92,7 @@ $headers = array(
 	'Authorization: Bearer '.$access_token,
 );
 
-$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin' ;
+$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkin?name=' . $asset_name ;
 
 $response = snipe_call( $url, 'POST', $headers );
 $json = json_decode($response, true);

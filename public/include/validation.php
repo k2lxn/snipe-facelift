@@ -34,6 +34,17 @@ function sanitize_name( $raw_request ) {
 	return false;
 }
 
+function sanitize_asset_name( $raw_request ) {
+	//$name = strtolower( $raw_request );
+	
+	if ( preg_match('/^([a-zA-Z0-9-]*)$/', $raw_request, $matches) ) {
+		$sanitized_name = $matches[0];
+		return str_replace(" ", "%", $sanitized_name);
+	}
+
+	return false;
+}
+
 function sanitize_snipe_id( $raw_request ) {
 	if ( preg_match( '/^\d+$/', $raw_request, $matches ) ) {
 		$sanitized_snipe_id = $matches[0];
