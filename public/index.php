@@ -1,11 +1,11 @@
 <?php
-require_once( 'config.php' ) ;
+require_once 'config.php';
 
 session_start();
 
 if( !isset($_SESSION['tech_id']) ) {
-    require_once( $path_to_secrets . 'CAS-1.3.3/CAS.php' ) ;
-    require_once( $path_to_secrets . 'allowed-users.php' ) ;
+    require_once 'CAS-1.3.3/CAS.php';
+    require_once $path_to_secrets . 'allowed-users.php';
 
     // initialize phpCAS
     phpCAS::client( CAS_VERSION_2_0, 'login.dartmouth.edu', 443, 'cas' ) ;
