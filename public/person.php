@@ -70,7 +70,8 @@ if ( $user_json['total'] != 0 ) {
 										//'assignee_name'=>$user_fullname,
 										'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
 										'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
-										'model'=>$assets[$x]["model"]["name"]
+										'model'=>$assets[$x]["model"]["name"],
+										'asset_name'=>$assets[$x]["name"]
 									);			
 		}
 

@@ -56,7 +56,7 @@ if( !isset($_SESSION['tech_id']) ) {
 
 <body>
 
-<h1>Snipe+ y'all</h1>
+<h1>Snipe+</h1>
 
 <div id="message" class="modal" role="dialog">
     <div class="modal-content">

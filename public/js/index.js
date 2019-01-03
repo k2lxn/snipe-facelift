@@ -82,8 +82,8 @@ function populate_checkin_or_extend( data ) {
 		data["assets"].forEach( function( asset ){
 			var due_date = asset["expected_checkin"] !== null ? asset["expected_checkin"] : "date not set" ;
 
-			console.log("The name as it's inserted into the checkin form: ");
-			console.log( asset["asset_name"]);
+			//console.log("The name as it's inserted into the checkin form: ");
+			//console.log( asset["asset_name"]);
 
 			var listing = listing_template.replace(/{{snipe_id}}/g, asset["snipe_id"])
 										.replace(/{{asset_tag}}/g, asset["asset_tag"])
@@ -146,8 +146,8 @@ $(document).ready(function() {
 			// present action options
 			else {
 				if ( "user_id" in response["data"] ) {
-					console.log("The name when it arrives from asset.php: ");
-					console.log( response["data"]["assets"][0]["asset_name"]);
+					//console.log("The name when it arrives from asset.php: ");
+					//console.log( response["data"]["assets"][0]["asset_name"]);
 
 					// open checkin/extend form
 					populate_checkin_or_extend( response["data"] );
@@ -202,7 +202,12 @@ $(document).ready(function() {
 				console.log( $(this).data() );
 				console.log("asset_name: " + $(this).data("asset_name") );
 
-				var url = "checkin.php?snipe_id=" + $(this).val() + "&asset_name=" + $(this).data("asset_name") ;
+				//var url = "checkin.php?snipe_id=" + $(this).val() + "&asset_name=" + $(this).data("asset_name") ;
+				var url = "checkin.php?snipe_id=" + $(this).val();
+
+				if ( $(this).data("asset_name") !== "" ) {
+					url += "&asset_name=" + $(this).data("asset_name") ;
+				}
 				console.log( url );
 
 				ajax_call( url, null, function( response ) {
