@@ -37,8 +37,7 @@ if ( isset($_GET['asset_name']) ){
 	}
 }
 else {
-	echo json_encode( array('status'=>'error', 'message'=>'Unless otherwise specified, asset_name will be set to an empty string' ) );
-	exit(1);
+	$asset_name = "" ;
 }
 
 // assignee_id validation

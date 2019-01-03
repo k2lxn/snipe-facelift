@@ -237,7 +237,12 @@ $(document).ready(function() {
 
 		$("#assigned-assets input[type='checkbox']").each( function() { 
 			if ( this.checked === true ){
-				var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val() + "&asset_name=" + $(this).data("asset_name"); // ADD DATE DATA
+				//var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val() + "&asset_name=" + $(this).data("asset_name"); // ADD DATE DATA
+				var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val(); // ADD DATE DATA
+				if ( $(this).data("asset_name") !== "" ) {
+					url += "&asset_name=" + $(this).data("asset_name");
+				}
+
 				console.log( "url: " + url );
 
 				ajax_call( url, null, function( response ){
