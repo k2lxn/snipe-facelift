@@ -82,15 +82,19 @@ function populate_checkin_or_extend( data ) {
 		data["assets"].forEach( function( asset ){
 			var due_date = asset["expected_checkin"] !== null ? asset["expected_checkin"] : "date not set" ;
 
-			//console.log("The name as it's inserted into the checkin form: ");
-			//console.log( asset["asset_name"]);
-
 			var listing = listing_template.replace(/{{snipe_id}}/g, asset["snipe_id"])
-										.replace(/{{asset_tag}}/g, asset["asset_tag"])
+										//.replace(/{{asset_tag}}/g, asset["asset_tag"])
 										.replace(/{{model}}/g, asset["model"]) 
 										.replace(/{{checked_out_since}}/g, asset["checked_out_since"])
 										.replace(/{{expected_checkin}}/g, due_date)
 										.replace(/{{asset_name}}/g, asset["asset_name"]);
+
+			if ( asset["asset_name"] === "" ) {
+				listing = listing.replace( /{{asset_tag}}/g, asset["asset_tag"] );
+			}
+			else if ( asset["asset_name"] ) {
+				listing = listing.replace( /{{asset_tag}}/g, asset["asset_name"] );
+			}
 
 			$("#assigned-assets ul").append( listing ) ;
 
@@ -112,7 +116,11 @@ function populate_checkin_or_extend( data ) {
 
 function populate_checkout( data ) {
 	// Display info
-	$("#checkout-options h2").html( data["asset_tag"] + " - " + data["model"] );
+	var display_name = data["asset_tag"];
+	if ( data["asset_name"] !== "") {
+		display_name = data["asset_name"];
+	}
+	$("#checkout-options h2").html( display_name + " - " + data["model"] );
 
 	// attach data to hidden fields
 	$("form#checkout input[name=snipe_id]").val( data["snipe_id"] );
@@ -146,9 +154,6 @@ $(document).ready(function() {
 			// present action options
 			else {
 				if ( "user_id" in response["data"] ) {
-					//console.log("The name when it arrives from asset.php: ");
-					//console.log( response["data"]["assets"][0]["asset_name"]);
-
 					// open checkin/extend form
 					populate_checkin_or_extend( response["data"] );
 					$("#checkin-options").fadeIn();

@@ -61,7 +61,8 @@ if ( $json['total'] != 0 ) {
 			else {
 				$response_data = array( 'snipe_id'=>$snipe_id,
 										'asset_tag'=>$assets[$x]['asset_tag'],
-										'model'=>$assets[$x]["model"]["name"] );
+										'model'=>$assets[$x]["model"]["name"],
+										'asset_name'=>$assets[$x]["name"] );
 			}	
 		}
 	}		
