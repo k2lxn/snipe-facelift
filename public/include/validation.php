@@ -28,7 +28,7 @@ function sanitize_name( $raw_request ) {
 	
 	if ( preg_match('/^([a-zA-Z]+) ([a-zA-Z]+)$/', $name, $matches) ) {
 		$sanitized_name = $matches[0];
-		return str_replace(" ", "%", $sanitized_name);
+		return str_replace(" ", "%20", $sanitized_name);
 	}
 
 	return false;
