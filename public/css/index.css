@@ -6338,6 +6338,9 @@ form#get-asset, form#get-person {
       form#get-asset input[type=text].form-control, form#get-person input[type=text].form-control {
         width: calc(100% - 120px); } }
 
+form#assigned-assets .table-header span {
+  border-bottom: 2px solid grey; }
+
 .modal {
   padding: 15px; }
   .modal:not(#message) {

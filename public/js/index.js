@@ -73,21 +73,28 @@ function populate_checkin_or_extend( data ) {
 	// display name
 	$("#checkin-options .user-name").text( data["user_name"] );
 
-	// if data.length > 0, for each in data, grab #asset-listing template
-	var listing_template = document.getElementById("asset-listing").innerHTML;
+	//var listing_template = document.getElementById("asset-listing").innerHTML;
+	//var table_header = document.getElementById("asset-table-header").innerHTML;
 
 	if ( "assets" in data ) {
+		var listing_template = document.getElementById("asset-listing").innerHTML;
+		var table_header = document.getElementById("asset-table-header").innerHTML;
 		var latest_due = new Date();
+
+		$("#assigned-assets ul").append( table_header ) ;
 
 		data["assets"].forEach( function( asset ){
 			var due_date = asset["expected_checkin"] !== null ? asset["expected_checkin"] : "date not set" ;
+
+			var days_checked_out = Math.round( ( new Date().getTime() - new Date(asset["checked_out_since"]).getTime() ) / (1000*60*60*24) );
 
 			var listing = listing_template.replace(/{{snipe_id}}/g, asset["snipe_id"])
 										//.replace(/{{asset_tag}}/g, asset["asset_tag"])
 										.replace(/{{model}}/g, asset["model"]) 
 										.replace(/{{checked_out_since}}/g, asset["checked_out_since"])
 										.replace(/{{expected_checkin}}/g, due_date)
-										.replace(/{{asset_name}}/g, asset["asset_name"]);
+										.replace(/{{asset_name}}/g, asset["asset_name"])
+										.replace(/{{days_checked_out}}/g, days_checked_out);
 
 			if ( asset["asset_name"] === "" ) {
 				listing = listing.replace( /{{asset_tag}}/g, asset["asset_tag"] );

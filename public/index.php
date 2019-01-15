@@ -97,16 +97,29 @@ if( !isset($_SESSION['tech_id']) ) {
     <h2>Assigned to <span class="user-name"></span>:</h2>
 
     <form id="assigned-assets">
-        <input name='assignee_id' type='hidden'>  
-        <ul> </ul> 
+        <input name='assignee_id' type='hidden'> 
+
+        <!-- header template --> 
+        <script id="asset-table-header" type="text/template">
+            <li class="table-header form-row">
+                <div class="col-md"><span>Asset</span></div>
+                <div class="col-sm"><span>Checked out for</span></div>
+                <div class="col-sm"><span>Due</span></div>
+            </li>
+        </script>
 
         <!-- li template -->
         <script id="asset-listing" type="text/template">
-            <li>
-                <input type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
-                {{asset_tag}}, {{model}} - Due {{expected_checkin}}
+            <li class="form-row">
+                <span class="col-md">
+                <input class=".col-" type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
+                {{asset_tag}}, {{model}}</span> 
+                <span class="col-sm">{{days_checked_out}} days</span>
+                <span class="col-sm">{{expected_checkin}}</span>
             </li>
         </script> 
+
+        <ul></ul>
         
     </form>
 
