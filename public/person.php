@@ -62,23 +62,24 @@ if ( $user_json['total'] != 0 ) {
 		$assets = $asset_json['rows'];
 
 		$response_data = array( 'user_id'=>$user_snipe_id, 'user_name'=>$user_fullname );
-		/*
-		if ( $assets[$x]['last_checkout'] == "" ) {
-			$last_checkout = '2017-12-06' ;
-		}
-		else {
-			$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
-		}
-		*/
-
-		$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
 
 		for ($x = 0; $x < count($assets); $x++) {	
+			
+			if ( $assets[$x]['last_checkout'] == "" ) {
+				if ( $assets[$x]['purchase_date'] != null ) {
+					$last_checkout = $assets[$x]['purchase_date']['date'];
+				} 	
+			}
+			else {
+				$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
+			}
+		
 			$response_data["assets"][] = array( 'asset_tag'=>$assets[$x]['asset_tag'],
 										'snipe_id'=>$assets[$x]['id'],
 										//'assignee_id'=>$user_snipe_id,
 										//'assignee_name'=>$user_fullname,
-										'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
+										//'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
+										'checked_out_since'=>$last_checkout,
 										'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
 										'model'=>$assets[$x]["model"]["name"],
 										'asset_name'=>$assets[$x]["name"]
