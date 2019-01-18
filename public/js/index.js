@@ -111,8 +111,12 @@ function populate_checkin_or_extend( data ) {
 
 			$("#assigned-assets ul").append( listing ) ;
 
+			// Indicate if asset is overdue
+			if ( new Date(due_date) < new Date() ) {
+				$("#assigned-assets .due-date:last-of-type").addClass("overdue");
+			}
+
 			// if expected_checkin > latest_due, latest_due = expected_checkin 
-			//console.log("due_date: " + due_date );
 			if ( new Date(due_date) > new Date(latest_due) ) {
 				latest_due = due_date ;
 			}
