@@ -87,12 +87,20 @@ function populate_checkin_or_extend( data ) {
 			var due_date = asset["expected_checkin"] !== null ? asset["expected_checkin"] : "date not set" ;
 
 			var days_checked_out = Math.round( ( new Date().getTime() - new Date(asset["checked_out_since"]).getTime() ) / (1000*60*60*24) );
-			/*if ( days_checked_out > 365 ) {
-				var years_checked_out = Math.round(days_checked_out / 365 );
-				years_checked_out = years_checked_out.toString() + " years and ";
+			
+			if ( days_checked_out > 365 ) {
+				var years = Math.round(days_checked_out / 365 );
+				var days = days_checked_out % 365 ;
+				var ys = years > 1 ? "s" : "" ;
+				var ds = days > 1 ? "s" : "" ;
+
+				days_checked_out = `${years} year${ys}, ${days} day${ds}`;
 			}
-			days_checked_out = (days_checked_out % 365).toString() + " days";
-			*/
+			else {
+				var ds = days_checked_out > 1 ? "s" : "" ;
+				days_checked_out = `${days_checked_out} day${ds}`;
+			}
+			
 			var listing = listing_template.replace(/{{snipe_id}}/g, asset["snipe_id"])
 										//.replace(/{{asset_tag}}/g, asset["asset_tag"])
 										.replace(/{{model}}/g, asset["model"]) 

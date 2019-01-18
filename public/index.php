@@ -114,7 +114,7 @@ if( !isset($_SESSION['tech_id']) ) {
                 <span class="col-sm">
                 <input class=".col-" type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
                 {{asset_tag}}, {{model}}</span> 
-                <span class="col-sm">{{days_checked_out}} days</span>
+                <span class="col-sm">{{days_checked_out}}</span>
                 <span class="col-sm due-date">{{expected_checkin}}</span>
             </li>
         </script> 
