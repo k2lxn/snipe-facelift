@@ -47,11 +47,18 @@ if ( $json['total'] != 0 ) {
 			if ( $assets[$x]['assigned_to'] != null ) {
 				$response_data = array( 'user_id'=>$assets[$x]['assigned_to']['id'], 'user_name'=>$assets[$x]['assigned_to']['name'] );
 
+				if ( $assets[$x]['last_checkout'] == "" ) {
+					$last_checkout = '2017-12-06' ;
+				}
+				else {
+					$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
+				}
+
 				$response_data["assets"][] = array( 'asset_tag'=>$assets[$x]['asset_tag'],
 										'snipe_id'=>$snipe_id,
 										//'assignee_id'=>$assets[$x]['assigned_to']['id'],
 										//'assignee_name'=>$assets[$x]['assigned_to']['name'],
-										'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
+										'checked_out_since'=>$last_checkout,
 										'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
 										'model'=>$assets[$x]["model"]["name"],
 										'asset_name'=>$assets[$x]["name"]
