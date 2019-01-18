@@ -46,13 +46,16 @@ if ( $json['total'] != 0 ) {
 			// if it's checked out
 			if ( $assets[$x]['assigned_to'] != null ) {
 				$response_data = array( 'user_id'=>$assets[$x]['assigned_to']['id'], 'user_name'=>$assets[$x]['assigned_to']['name'] );
-
+				/*
 				if ( $assets[$x]['last_checkout'] == "" ) {
 					$last_checkout = '2017-12-06' ;
 				}
 				else {
 					$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
 				}
+				*/
+
+				$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
 
 				$response_data["assets"][] = array( 'asset_tag'=>$assets[$x]['asset_tag'],
 										'snipe_id'=>$snipe_id,

@@ -89,7 +89,7 @@ if( !isset($_SESSION['tech_id']) ) {
 
 
 <!-- CHECK IN -->
-<div id="checkin-options" class="hidden" role="">
+<div id="checkin-options" class="container hidden" role="">
     <button type="button" class="close" data-dismiss="#checkin-options" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -102,7 +102,7 @@ if( !isset($_SESSION['tech_id']) ) {
         <!-- header template --> 
         <script id="asset-table-header" type="text/template">
             <li class="table-header form-row">
-                <div class="col-md"><span>Asset</span></div>
+                <div class="col-sm"><span>Asset</span></div>
                 <div class="col-sm"><span>Checked out for</span></div>
                 <div class="col-sm"><span>Due</span></div>
             </li>
@@ -111,7 +111,7 @@ if( !isset($_SESSION['tech_id']) ) {
         <!-- li template -->
         <script id="asset-listing" type="text/template">
             <li class="form-row">
-                <span class="col-md">
+                <span class="col-sm">
                 <input class=".col-" type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
                 {{asset_tag}}, {{model}}</span> 
                 <span class="col-sm">{{days_checked_out}} days</span>
