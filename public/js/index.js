@@ -128,6 +128,11 @@ function populate_checkin_or_extend( data ) {
 			if ( new Date(due_date) > new Date(latest_due) ) {
 				latest_due = due_date ;
 			}
+
+			// If only one asset returned, check it by default
+			if ( data["assets"].length === 1 ) {
+				$("#assigned-assets input[type='checkbox']")[0].checked = true;
+			}
 		});
 
 		// set default datepicker date to latest_due
