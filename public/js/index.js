@@ -325,9 +325,40 @@ $(document).ready(function() {
 		return false;
 	});
 
+
+	// Run Overdue Asset Report
+	ajax_call( "overdue-assets.php", null, function( response ){
+		response = JSON.parse(response);
+		//console.log( response );
+
+		var listing_template = document.getElementById("overdue-asset-listing").innerHTML;
+
+		var last_date = response["data"][0]["expected_checkin"];
+
+		// first sort by date and then sort by name
+		var sorted_assets = response["data"].sort( function( a, b ) { 
+			return (new Date(a["expected_checkin"]) - new Date(b["expected_checkin"]) ) ;
+		});
+		//console.log( sorted_assets ) ;
+
+		
+		sorted_assets.forEach( function( asset, i ){
+			var listing = listing_template.replace(/{{user}}/g, asset["assignee_name"])
+										  .replace(/{{netID}}/g, asset["assignee_netID"])
+										  .replace(/{{asset_tag}}/g, asset["asset_tag"])
+										  .replace(/{{model}}/g, asset["model"])
+										  .replace(/{{expected_checkin}}/g, asset["expected_checkin"])
+										  .replace(/{{no}}/g, i+1);
+
+
+			$("#overdue-report").append( listing ) ;
+
+		} );
+
+		// hide the loader
+		$(".loader").css("display", "none");
+	} );
+
 });
-
-
-
 
 

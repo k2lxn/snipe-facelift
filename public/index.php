@@ -162,6 +162,31 @@ if( !isset($_SESSION['tech_id']) ) {
 </div>
 
 
+
+<!-- REPORTS -->
+<section id="reports">
+    <h2>Overdue assets <div class="loader"></div></h2>
+
+    <div id="overdue-report" class="table">
+        <div class="row table-header">
+            <div class="col-1">#</div>
+            <div class="col">Checked out to</div>
+            <div class="col">Asset</div>
+            <div class="col">Due</div>
+        </div>    
+    </div>
+
+    <script id="overdue-asset-listing" type="text/template">
+        <div class="row">
+            <div class="col-1">{{no}}</div>
+            <div class="col">{{user}} ({{netID}})</div>
+            <div class="col">{{asset_tag}}, {{model}}</div>
+            <div class="col">{{expected_checkin}}</div>
+        </div>
+    </script>
+    
+</section> <!-- end #reports -->
+
 </body>
 
 

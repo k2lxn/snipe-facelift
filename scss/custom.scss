@@ -90,16 +90,10 @@ form#get-asset, form#get-person {
 	} 
 }
 
-form#assigned-assets {
-	.table-header {
-		span {
-			//background-color: rgba(0,0,0,.2);
-			//padding: 5px;
-			//border-radius: 4px;
 
-			//text-decoration: underline;
-			border-bottom: 2px solid grey;
-		}
+form#assigned-assets {
+	.table-header span{	
+		border-bottom: 2px solid grey;
 	}
 }
 
@@ -156,7 +150,70 @@ form#assigned-assets {
 }
 
 
+// Grids & Tables
+.table-header {
+	font-weight: bold;
+	background-color: #eee;
+}
+
+.table {
+	padding: 30px;
+	.row {
+		border-bottom: 1px solid #aaa;
+		padding: 10px 0;
+	}
+}
 
 
+// Loader (from https://projects.lukehaas.me/css-loaders/)
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 10em;
+  height: 10em;
+}
+.loader {
+  font-size: 3px;
+  position: relative;
+  display: inline-block;
+  margin-left: 10px;
+  top: 6px;
+  text-indent: -9999em;
+  border-top: 1.1em solid rgba(0,123,255, 0.2);
+  border-right: 1.1em solid rgba(0,123,255, 0.2);
+  border-bottom: 1.1em solid rgba(0,123,255, 0.2);
+  border-left: 1.1em solid #007bff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 
 
+// Custom custom
+#reports {
+	h2 {
+		position: relative;
+	}
+}
