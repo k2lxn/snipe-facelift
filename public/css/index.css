@@ -6347,7 +6347,8 @@ form#assigned-assets .table-header span {
   border-bottom: 2px solid grey; }
 
 .modal {
-  padding: 15px; }
+  padding: 15px;
+  bottom: unset; }
   .modal:not(#message) {
     padding-top: 100px;
     background: rgba(0, 0, 0, 0.65); }

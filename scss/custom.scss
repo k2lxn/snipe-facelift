@@ -101,6 +101,7 @@ form#assigned-assets {
 // Modals
 .modal {
 	padding: 15px;
+	bottom: unset;
 
 	&:not(#message) {
 		padding-top: 100px;
