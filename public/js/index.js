@@ -357,6 +357,7 @@ $(document).ready(function() {
 
 		// hide the loader
 		$(".loader").css("display", "none");
+		$(".lds-spinner").css("display", "none");
 	} );
 
 });

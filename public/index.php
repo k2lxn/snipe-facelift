@@ -165,7 +165,11 @@ if( !isset($_SESSION['tech_id']) ) {
 
 <!-- REPORTS -->
 <section id="reports">
-    <h2>Overdue assets <div class="loader"></div></h2>
+    <!--<h2>Overdue assets <div class="loader"></div></h2>-->
+    <h2>Overdue assets 
+        <div class="loader"></div>
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </h2>
 
     <div id="overdue-report" class="table">
         <div class="row table-header">
@@ -189,6 +193,14 @@ if( !isset($_SESSION['tech_id']) ) {
 
 </body>
 
+<script>
+    if ( "<?php echo $_SESSION['tech_id'] ?>" == "d1135v3") {
+        document.getElementsByClassName("lds-spinner")[0].style.display="inline-block";
+    }
+    else {
+        document.getElementsByClassName("loader")[0].style.display="inline-block";
+    }
+</script>
 
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/index.js"></script>
