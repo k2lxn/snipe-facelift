@@ -21,9 +21,11 @@ h2 {
 	color: #eb273a;
 }
 
+/*
 .hidden {
 	display: none ;
 }
+*/
 
 #checkin-options, #checkout-options {
 	//margin-top: 30px;
@@ -167,9 +169,6 @@ form#assigned-assets {
 
 
 // Loaders (from https://projects.lukehaas.me/css-loaders/)
-.loader, .lds-spinner {
-	display: none;
-}
 .loader,
 .loader:after {
   border-radius: 50%;
@@ -179,7 +178,7 @@ form#assigned-assets {
 .loader {
   font-size: 3px;
   position: relative;
-  //display: inline-block;
+  display: inline-block;
   margin-left: 10px;
   top: 6px;
   text-indent: -9999em;
@@ -218,7 +217,7 @@ form#assigned-assets {
 // From https://loading.io/css/
 .lds-spinner {
   //color: #000;
-  //display: inline-block;
+  display: inline-block;
   position: relative;
   width: 64px;
   height: 45px;
@@ -296,12 +295,26 @@ form#assigned-assets {
 }
 
 
-
-
-
 // Custom custom
 #reports {
 	h2 {
 		position: relative;
 	}
 }
+
+
+// This has to be at the end in order to take precedence over other display rules
+.hidden {
+	display: none ;
+}
+
+
+
+
+
+
+
+
+
+
+

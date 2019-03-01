@@ -6298,9 +6298,11 @@ h2 {
 .overdue {
   color: #eb273a; }
 
+/*
 .hidden {
-  display: none; }
-
+	display: none ;
+}
+*/
 #checkin-options, #checkout-options {
   position: relative;
   max-width: 800px;
@@ -6385,9 +6387,6 @@ form#assigned-assets .table-header span {
     border-bottom: 1px solid #aaa;
     padding: 10px 0; }
 
-.loader, .lds-spinner {
-  display: none; }
-
 .loader,
 .loader:after {
   border-radius: 50%;
@@ -6397,6 +6396,7 @@ form#assigned-assets .table-header span {
 .loader {
   font-size: 3px;
   position: relative;
+  display: inline-block;
   margin-left: 10px;
   top: 6px;
   text-indent: -9999em;
@@ -6427,6 +6427,7 @@ form#assigned-assets .table-header span {
     transform: rotate(360deg); } }
 
 .lds-spinner {
+  display: inline-block;
   position: relative;
   width: 64px;
   height: 45px; }
@@ -6502,3 +6503,6 @@ form#assigned-assets .table-header span {
 
 #reports h2 {
   position: relative; }
+
+.hidden {
+  display: none; }

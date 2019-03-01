@@ -1,4 +1,8 @@
+/* Global variables */
+var overdue_list = [];
 
+
+/* Function definitions */
 function ajax_call( url, params, callback ) {
 
 	var xmlhttp = new XMLHttpRequest();
@@ -60,6 +64,50 @@ function display_success( message ) {
 	$("#message .modal-body p").text( message );
 	$("#message.modal").fadeIn( "fast" );
 	hide_message();
+}
+
+
+function get_overdue_assets() {
+	// clear the list and show the loader
+	$("#overdue-report > .row:not(:first-of-type)").remove();
+	$(".loader").removeClass("hidden");
+
+	ajax_call( "overdue-assets.php", null, function( response ){
+		response = JSON.parse(response);
+
+		// clear the overdue_list so it can be rebuilt
+		overdue_list = [];
+
+		var listing_template = document.getElementById("overdue-asset-listing").innerHTML;
+
+		var last_date = response["data"][0]["expected_checkin"];
+
+		// first sort by date and then sort by name
+		var sorted_assets = response["data"].sort( function( a, b ) { 
+			return (new Date(a["expected_checkin"]) - new Date(b["expected_checkin"]) ) ;
+		});
+		//console.log( sorted_assets ) ;
+
+		
+		sorted_assets.forEach( function( asset, i ){
+			var listing = listing_template.replace(/{{user}}/g, asset["assignee_name"])
+										  .replace(/{{netID}}/g, asset["assignee_netID"])
+										  .replace(/{{asset_tag}}/g, asset["asset_tag"])
+										  .replace(/{{model}}/g, asset["model"])
+										  .replace(/{{expected_checkin}}/g, asset["expected_checkin"])
+										  .replace(/{{no}}/g, i+1);
+
+			// display							  
+			$("#overdue-report").append( listing ) ;
+
+			// record snipe id
+			overdue_list.push( asset["snipe_id"] );
+
+		} );
+
+		// hide the loader
+		$(".loader").addClass("hidden");
+	} );
 }
 
 
@@ -237,14 +285,14 @@ $(document).ready(function() {
 				console.log( $(this).data() );
 				console.log("asset_name: " + $(this).data("asset_name") );
 
-				//var url = "checkin.php?snipe_id=" + $(this).val() + "&asset_name=" + $(this).data("asset_name") ;
-				var url = "checkin.php?snipe_id=" + $(this).val();
+				var snipe_id = $(this).val();
+				var url = "checkin.php?snipe_id=" + snipe_id;
 
 				if ( $(this).data("asset_name") !== "" ) {
 					url += "&asset_name=" + $(this).data("asset_name") ;
 				}
 				console.log( url );
-
+				
 				ajax_call( url, null, function( response ) {
 					response = JSON.parse(response);
 					console.log(response);
@@ -258,9 +306,14 @@ $(document).ready(function() {
 					else if ( response["status"] === "success" ) {
 						display_success( response["message"] );
 						$("#checkin-options").fadeOut();
+
+						// if the asset was overdue, refresh the overdue asset list
+						if ( overdue_list.includes( parseInt(snipe_id) ) ) {
+							console.log("refreshing overdue_list");
+							get_overdue_assets();
+						}
 					}
 				});	
-
 			}
 		});
 	});
@@ -327,9 +380,13 @@ $(document).ready(function() {
 
 
 	// Run Overdue Asset Report
+	get_overdue_assets();
+	/*
 	ajax_call( "overdue-assets.php", null, function( response ){
 		response = JSON.parse(response);
-		//console.log( response );
+
+		// clear the overdue_list so it can be rebuilt
+		overdue_list = [];
 
 		var listing_template = document.getElementById("overdue-asset-listing").innerHTML;
 
@@ -350,16 +407,21 @@ $(document).ready(function() {
 										  .replace(/{{expected_checkin}}/g, asset["expected_checkin"])
 										  .replace(/{{no}}/g, i+1);
 
-
+			// display							  
 			$("#overdue-report").append( listing ) ;
+
+			// record 
+			overdue_list.push( asset["asset_tag"] );
 
 		} );
 
 		// hide the loader
 		$(".loader").css("display", "none");
 		$(".lds-spinner").css("display", "none");
-	} );
 
+		console.log( "overdue: " + overdue_list );
+	} );
+	*/
 });
 
 

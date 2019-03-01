@@ -22,8 +22,6 @@ curl_close($ch);
 
 $json = json_decode($data, true);
 
-$tally = 0;
-
 if ( $json['total'] != 0 ) {
 	$assets = $json['rows'];
 	$response_data = array();
@@ -39,7 +37,7 @@ if ( $json['total'] != 0 ) {
 				// return: name=>assigned_to["name"], netID=>assigned_to["username"], asset_tag=>asset_tag, model=>model["name"], due=>expected_checkin["date"]*/
 
 				$response_data[] = array( 'asset_tag'=>$assets[$x]['asset_tag'],
-										  //'snipe_id'=>$assets[$x]['id'],
+										  'snipe_id'=>$assets[$x]['id'],
 										  'assignee_name'=>$assets[$x]['assigned_to']['name'],
 										  'assignee_netID'=>$assets[$x]['assigned_to']['username'],
 										  //'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
@@ -48,9 +46,6 @@ if ( $json['total'] != 0 ) {
 										  'model'=>$assets[$x]["model"]["name"],
 										  'asset_name'=>$assets[$x]["name"]
 									);
-
-				$tally++ ;
-
 			}
 		}
 	}
