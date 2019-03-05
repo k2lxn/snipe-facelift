@@ -325,8 +325,9 @@ $(document).ready(function() {
 
 		$("#assigned-assets input[type='checkbox']").each( function() { 
 			if ( this.checked === true ){
-				//var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val() + "&asset_name=" + $(this).data("asset_name"); // ADD DATE DATA
-				var url = "extend-loan.php?snipe_id=" + $(this).val() + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val(); // ADD DATE DATA
+				var snipe_id = $(this).val();
+				var url = "extend-loan.php?snipe_id=" + snipe_id + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val(); // ADD DATE DATA
+				
 				if ( $(this).data("asset_name") !== "" ) {
 					url += "&asset_name=" + $(this).data("asset_name");
 				}
@@ -346,6 +347,12 @@ $(document).ready(function() {
 					else if ( response["status"] === "success" ) {
 						display_success( response["message"] );
 						$("#checkin-options").fadeOut();
+
+						// if the asset was overdue, refresh the overdue asset list
+						if ( overdue_list.includes( parseInt(snipe_id) ) ) {
+							console.log("refreshing overdue_list");
+							get_overdue_assets();
+						}
 					}
 				});
 			}
@@ -381,47 +388,6 @@ $(document).ready(function() {
 
 	// Run Overdue Asset Report
 	get_overdue_assets();
-	/*
-	ajax_call( "overdue-assets.php", null, function( response ){
-		response = JSON.parse(response);
-
-		// clear the overdue_list so it can be rebuilt
-		overdue_list = [];
-
-		var listing_template = document.getElementById("overdue-asset-listing").innerHTML;
-
-		var last_date = response["data"][0]["expected_checkin"];
-
-		// first sort by date and then sort by name
-		var sorted_assets = response["data"].sort( function( a, b ) { 
-			return (new Date(a["expected_checkin"]) - new Date(b["expected_checkin"]) ) ;
-		});
-		//console.log( sorted_assets ) ;
-
-		
-		sorted_assets.forEach( function( asset, i ){
-			var listing = listing_template.replace(/{{user}}/g, asset["assignee_name"])
-										  .replace(/{{netID}}/g, asset["assignee_netID"])
-										  .replace(/{{asset_tag}}/g, asset["asset_tag"])
-										  .replace(/{{model}}/g, asset["model"])
-										  .replace(/{{expected_checkin}}/g, asset["expected_checkin"])
-										  .replace(/{{no}}/g, i+1);
-
-			// display							  
-			$("#overdue-report").append( listing ) ;
-
-			// record 
-			overdue_list.push( asset["asset_tag"] );
-
-		} );
-
-		// hide the loader
-		$(".loader").css("display", "none");
-		$(".lds-spinner").css("display", "none");
-
-		console.log( "overdue: " + overdue_list );
-	} );
-	*/
 });
 
 
