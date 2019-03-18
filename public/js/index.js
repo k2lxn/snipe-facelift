@@ -97,6 +97,12 @@ function get_overdue_assets() {
 										  .replace(/{{expected_checkin}}/g, asset["expected_checkin"])
 										  .replace(/{{no}}/g, i+1);
 
+			// if the asset has a name, include that
+			if ( "asset_name" in asset && asset["asset_name"] !== "" ) {
+				var display_name = asset["asset_name"] + " (" + asset["asset_tag"] + ")";
+				listing = listing.replace( asset["asset_tag"], display_name );
+			}
+
 			// display							  
 			$("#overdue-report").append( listing ) ;
 
