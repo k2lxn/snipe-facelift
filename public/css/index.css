@@ -6295,6 +6295,11 @@ h1 {
 h2 {
   font-size: 1.5em; }
 
+a {
+  color: inherit; }
+  a:hover {
+    color: #007bff; }
+
 .overdue {
   color: #eb273a; }
 
@@ -6320,6 +6325,9 @@ form .form-row {
 
 form input[type="submit"] {
   margin-left: 10px; }
+
+form input[type="checkbox"] {
+  margin-right: 10px; }
 
 form .form-control {
   border-radius: 0px;
@@ -6504,9 +6512,9 @@ form#assigned-assets .table-header span {
 #reports h2 {
   position: relative; }
 
-.asset-tag {
+.asset-tag, .user {
   cursor: default; }
-  .asset-tag:hover {
+  .asset-tag:hover, .user:hover {
     color: #007bff; }
 
 .hidden {

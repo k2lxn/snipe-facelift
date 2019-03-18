@@ -94,7 +94,7 @@ if( !isset($_SESSION['tech_id']) ) {
         <span aria-hidden="true">&times;</span>
     </button>
 
-    <h2>Assigned to <span class="user-name"></span>:</h2>
+    <h2>Assigned to <a class="user-name" target="_blank" href="https://ts.snipe-it.io/users/"></a>:</h2>
 
     <form id="assigned-assets">
         <input name='assignee_id' type='hidden'> 
@@ -112,8 +112,9 @@ if( !isset($_SESSION['tech_id']) ) {
         <script id="asset-listing" type="text/template">
             <li class="form-row">
                 <span class="col-sm">
-                <input class=".col-" type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
-                {{asset_tag}}, {{model}}</span> 
+                    <input class=".col-" type="checkbox" name="asset_id" value="{{snipe_id}}" data-expected_checkin="{{expected_checkin}}" data-original-checkout-date="{{checked_out_since}}" data-asset_name="{{asset_name}}">
+                    <a target="_blank" href="https://ts.snipe-it.io/hardware/{{snipe_id}}">{{asset_tag}}</a>, {{model}}
+                </span> 
                 <span class="col-sm">{{days_checked_out}}</span>
                 <span class="col-sm due-date">{{expected_checkin}}</span>
             </li>
@@ -182,7 +183,7 @@ if( !isset($_SESSION['tech_id']) ) {
     <script id="overdue-asset-listing" type="text/template">
         <div class="row">
             <div class="col-1">{{no}}</div>
-            <div class="col">{{user}} ({{netID}})</div>
+            <div class="col">{{user}} (<span class="user">{{netID}}</span>)</div>
             <div class="col"><span class="asset-tag">{{asset_tag}}</span>, {{model}}</div>
             <div class="col">{{expected_checkin}}</div>
         </div>

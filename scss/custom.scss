@@ -17,6 +17,14 @@ h2 {
 	font-size: 1.5em;
 }
 
+a {
+	color: inherit;
+
+	&:hover {
+		color: #007bff;
+	}
+}
+
 .overdue {
 	color: #eb273a;
 }
@@ -55,6 +63,10 @@ form {
 
 	input[type="submit"] {
 		margin-left: 10px;
+	}
+
+	input[type="checkbox"] {
+		margin-right: 10px;
 	}
 
 	.form-control {
@@ -302,8 +314,10 @@ form#assigned-assets {
 	}
 }
 
-.asset-tag {
+.asset-tag, .user {
 	cursor: default;
+	//text-decoration: underline ;
+
 	&:hover {
 		color: #007bff ;
 	}

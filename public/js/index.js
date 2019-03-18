@@ -89,6 +89,7 @@ function get_overdue_assets() {
 			var listing = listing_template.replace(/{{user}}/g, asset["assignee_name"])
 										  .replace(/{{netID}}/g, asset["assignee_netID"])
 										  .replace(/{{asset_tag}}/g, asset["asset_tag"])
+										  .replace(/{{snipe_id}}/g, asset["snipe_id"])
 										  .replace(/{{model}}/g, asset["model"])
 										  .replace(/{{expected_checkin}}/g, asset["expected_checkin"])
 										  .replace(/{{no}}/g, i+1);
@@ -103,22 +104,11 @@ function get_overdue_assets() {
 			$("#overdue-report").append( listing ) ;
 
 			// attach onclicks
+			$("#overdue-report .row:last-of-type .user").click( function(){ 
+				get_person( asset["assignee_netID"] );
+			});
 			$("#overdue-report .row:last-of-type .asset-tag").click( function(){ 
-				var data = { 
-					"user_id": asset["assignee)snipe_id"], 
-					"user_name": asset["assignee_name"], 
-					"assets": [ { 
-						"asset_tag": asset["asset_tag"], 
-						"snipe_id": asset["snipe_id"], 
-						"checked_out_since": asset["checked_out_since"], 
-						"expected_checkin": asset["expected_checkin"], 
-						"model": asset["model"], 
-						"asset_name": asset["asset_name"] }
-						] 
-					};
-
-				populate_checkin_or_extend( data );
-				$("#checkin-options").fadeIn();
+				get_asset( asset["asset_tag"] );
 			});
 
 			// record snipe id
@@ -132,6 +122,63 @@ function get_overdue_assets() {
 }
 
 
+function get_asset( query ) {
+	var url = "asset.php?asset=" + query ;
+	console.log( "url: " + url );
+
+	ajax_call( url, null, function( response ) {
+		response = JSON.parse(response);
+		console.log(response);
+
+		// Display error messages
+		if ( response["status"] === "error" ) {
+			$("#message").addClass("error");
+			$("#message .modal-body p").text( response["message"] );
+			$("#message.modal").css("display", "block");
+		}
+
+		// present action options
+		else {
+			if ( "user_id" in response["data"] ) {
+				// open checkin/extend form
+				populate_checkin_or_extend( response["data"] );
+				$("#checkin-options").fadeIn();
+			}	
+
+			else {
+				console.log("This asset is available");
+				// open checkout form
+				populate_checkout( response["data"] );
+				$("#checkout-options").fadeIn();
+			}
+		}
+	});
+}
+
+function get_person( query ){
+	var url = "person.php?person=" + query ;
+	console.log( "url: " + url );
+
+	ajax_call( url, null, function( response ) {
+		response = JSON.parse(response);
+		console.log(response);
+
+		// Display error messages
+		if ( response["status"] === "error" ) {
+			$("#message").addClass("error");
+			$("#message .modal-body p").text( response["message"] );
+			$("#message.modal").css("display", "block");
+		}
+
+		// present action options
+		else {
+			populate_checkin_or_extend( response["data"] );
+			$("#checkin-options").fadeIn();
+		}
+		
+	});
+}
+
 function populate_checkin_or_extend( data ) {
 	// clear any previous results
 	$("#assigned-assets ul").html(""); 
@@ -142,8 +189,8 @@ function populate_checkin_or_extend( data ) {
 	// display name
 	$("#checkin-options .user-name").text( data["user_name"] );
 
-	//var listing_template = document.getElementById("asset-listing").innerHTML;
-	//var table_header = document.getElementById("asset-table-header").innerHTML;
+	// link on user's name
+	$("#checkin-options .user-name").attr("href", "https://ts.snipe-it.io/users/" + data["user_id"] );
 
 	if ( "assets" in data ) {
 		var listing_template = document.getElementById("asset-listing").innerHTML;
@@ -236,65 +283,13 @@ $(document).ready(function() {
 
 	// asset request form
 	$("form#get-asset").submit( function() {
-		var url = "asset.php?" + $(this).serialize();
-		console.log( "url: " + url );
-
-		ajax_call( url, null, function( response ) {
-			response = JSON.parse(response);
-			console.log(response);
-
-			// Display error messages
-			if ( response["status"] === "error" ) {
-				$("#message").addClass("error");
-				$("#message .modal-body p").text( response["message"] );
-				$("#message.modal").css("display", "block");
-			}
-
-			// present action options
-			else {
-				if ( "user_id" in response["data"] ) {
-					// open checkin/extend form
-					populate_checkin_or_extend( response["data"] );
-					$("#checkin-options").fadeIn();
-				}	
-
-				else {
-					console.log("This asset is available");
-					// open checkout form
-					populate_checkout( response["data"] );
-					$("#checkout-options").fadeIn();
-				}
-			}
-		});
-
+		get_asset( this.elements[0].value );
 		return false;
 	});
-
-
+		
 	// person request form
 	$("form#get-person").submit( function() {
-		var url = "person.php?" + $(this).serialize();
-		console.log( "url: " + url );
-
-		ajax_call( url, null, function( response ) {
-			response = JSON.parse(response);
-			console.log(response);
-
-			// Display error messages
-			if ( response["status"] === "error" ) {
-				$("#message").addClass("error");
-				$("#message .modal-body p").text( response["message"] );
-				$("#message.modal").css("display", "block");
-			}
-
-			// present action options
-			else {
-				populate_checkin_or_extend( response["data"] );
-				$("#checkin-options").fadeIn();
-			}
-			
-		});
-
+		get_person( this.elements[0].value );
 		return false;
 	});
 
