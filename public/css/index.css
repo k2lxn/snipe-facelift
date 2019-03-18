@@ -6504,5 +6504,10 @@ form#assigned-assets .table-header span {
 #reports h2 {
   position: relative; }
 
+.asset-tag {
+  cursor: default; }
+  .asset-tag:hover {
+    color: #007bff; }
+
 .hidden {
   display: none; }

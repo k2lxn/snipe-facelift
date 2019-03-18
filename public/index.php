@@ -183,7 +183,7 @@ if( !isset($_SESSION['tech_id']) ) {
         <div class="row">
             <div class="col-1">{{no}}</div>
             <div class="col">{{user}} ({{netID}})</div>
-            <div class="col">{{asset_tag}}, {{model}}</div>
+            <div class="col"><span class="asset-tag">{{asset_tag}}</span>, {{model}}</div>
             <div class="col">{{expected_checkin}}</div>
         </div>
     </script>

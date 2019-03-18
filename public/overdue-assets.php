@@ -34,14 +34,22 @@ if ( $json['total'] != 0 ) {
 			if ( $today > $due_date ) {
 				// add the data to the array to be returned
 
-				// return: name=>assigned_to["name"], netID=>assigned_to["username"], asset_tag=>asset_tag, model=>model["name"], due=>expected_checkin["date"]*/
+				if ( $assets[$x]['last_checkout'] == "" ) {
+					if ( $assets[$x]['purchase_date'] != null ) {
+						$last_checkout = $assets[$x]['purchase_date']['date'];
+					} 	
+				}
+				else {
+					$last_checkout = substr($assets[$x]['last_checkout']['datetime'], 0, 10);
+				}
 
 				$response_data[] = array( 'asset_tag'=>$assets[$x]['asset_tag'],
 										  'snipe_id'=>$assets[$x]['id'],
+										  'assignee_snipe_id'=>$assets[$x]['assigned_to']['id'],
 										  'assignee_name'=>$assets[$x]['assigned_to']['name'],
 										  'assignee_netID'=>$assets[$x]['assigned_to']['username'],
 										  //'checked_out_since'=>substr($assets[$x]['last_checkout']['datetime'], 0, 10),
-										  //'checked_out_since'=>$last_checkout,
+										  'checked_out_since'=>$last_checkout,
 										  'expected_checkin'=>$assets[$x]['expected_checkin']['date'],
 										  'model'=>$assets[$x]["model"]["name"],
 										  'asset_name'=>$assets[$x]["name"]

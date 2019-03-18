@@ -302,6 +302,13 @@ form#assigned-assets {
 	}
 }
 
+.asset-tag {
+	cursor: default;
+	&:hover {
+		color: #007bff ;
+	}
+}
+
 
 // This has to be at the end in order to take precedence over other display rules
 .hidden {

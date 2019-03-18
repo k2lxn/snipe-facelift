@@ -80,14 +80,10 @@ function get_overdue_assets() {
 
 		var listing_template = document.getElementById("overdue-asset-listing").innerHTML;
 
-		var last_date = response["data"][0]["expected_checkin"];
-
 		// first sort by date and then sort by name
 		var sorted_assets = response["data"].sort( function( a, b ) { 
 			return (new Date(a["expected_checkin"]) - new Date(b["expected_checkin"]) ) ;
 		});
-		//console.log( sorted_assets ) ;
-
 		
 		sorted_assets.forEach( function( asset, i ){
 			var listing = listing_template.replace(/{{user}}/g, asset["assignee_name"])
@@ -105,6 +101,25 @@ function get_overdue_assets() {
 
 			// display							  
 			$("#overdue-report").append( listing ) ;
+
+			// attach onclicks
+			$("#overdue-report .row:last-of-type .asset-tag").click( function(){ 
+				var data = { 
+					"user_id": asset["assignee)snipe_id"], 
+					"user_name": asset["assignee_name"], 
+					"assets": [ { 
+						"asset_tag": asset["asset_tag"], 
+						"snipe_id": asset["snipe_id"], 
+						"checked_out_since": asset["checked_out_since"], 
+						"expected_checkin": asset["expected_checkin"], 
+						"model": asset["model"], 
+						"asset_name": asset["asset_name"] }
+						] 
+					};
+
+				populate_checkin_or_extend( data );
+				$("#checkin-options").fadeIn();
+			});
 
 			// record snipe id
 			overdue_list.push( asset["snipe_id"] );
