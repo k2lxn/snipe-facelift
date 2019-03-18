@@ -266,7 +266,8 @@ function populate_checkout( data ) {
 	if ( data["asset_name"] !== "") {
 		display_name = data["asset_name"];
 	}
-	$("#checkout-options h2").html( display_name + " - " + data["model"] );
+	$("#checkout-options h2 a").html( display_name ).attr( "href", "https://ts.snipe-it.io/hardware/" + data["snipe_id"] );
+	$("#checkout-options h2 span").html( data["model"] );
 
 	// attach data to hidden fields
 	$("form#checkout input[name=snipe_id]").val( data["snipe_id"] );

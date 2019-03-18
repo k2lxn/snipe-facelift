@@ -141,7 +141,7 @@ if( !isset($_SESSION['tech_id']) ) {
         <span aria-hidden="true">&times;</span>
     </button>
 
-    <h2></h2>
+    <h2><a target="_blank" href="https://ts.snipe-it.io/hardware/"></a> - <span></span></h2>
     <p>This asset is available for checkout</p>
 
     <form id="checkout">
