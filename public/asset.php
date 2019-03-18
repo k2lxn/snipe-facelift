@@ -10,8 +10,13 @@ if ( isset($_GET['asset']) ){
 	$target_tag = sanitize_asset_tag( $_GET['asset'] );
 
 	if ( $target_tag == false ) {
-		echo json_encode( array('status'=>'error', 'message'=>'Invalid asset tag' ) );
-		exit(1);
+		// see if it's a valid loaner name
+		$target_tag = sanitize_loaner_name( $_GET['asset'] );
+
+		if ( $target_tag == false ) {
+			echo json_encode( array('status'=>'error', 'message'=>'Invalid asset tag' ) );
+			exit(1);
+		}
 	}
 }
 else {
@@ -40,7 +45,8 @@ if ( $json['total'] != 0 ) {
 	$assets = $json['rows'];
 	for ($x = 0; $x < count($assets); $x++) {
 		$asset_tag = $assets[$x]['asset_tag'];
-		if ( strtolower( $asset_tag ) == $target_tag ) {
+		$asset_name = $assets[$x]['name'];
+		if ( strtolower( $asset_tag ) == $target_tag ||  strtolower( $asset_name ) == $target_tag ) {
 			$snipe_id = $assets[$x]['id'];	
 
 			// if it's checked out

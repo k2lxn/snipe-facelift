@@ -34,12 +34,12 @@ function sanitize_name( $raw_request ) {
 	return false;
 }
 
-function sanitize_asset_name( $raw_request ) {
-	//$name = strtolower( $raw_request );
+function sanitize_loaner_name( $raw_request ) {
+	$name = strtolower( $raw_request );
 	
-	if ( preg_match('/^([a-zA-Z0-9-]*)$/', $raw_request, $matches) ) {
+	if ( preg_match('/^(loaner[0-3]{1}[0-9]{1})$/', $name, $matches) ) {
 		$sanitized_name = $matches[0];
-		return str_replace(" ", "%", $sanitized_name);
+		return $sanitized_name;
 	}
 
 	return false;
@@ -53,7 +53,6 @@ function sanitize_snipe_id( $raw_request ) {
 
 	return false;
 }
-
 
 function sanitize_date( $raw_request ) {
 	if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $raw_request, $matches ) ) {
