@@ -205,7 +205,7 @@ function populate_checkin_or_extend( data ) {
 			var days_checked_out = Math.round( ( new Date().getTime() - new Date(asset["checked_out_since"]).getTime() ) / (1000*60*60*24) );
 			
 			if ( days_checked_out > 365 ) {
-				var years = Math.round(days_checked_out / 365 );
+				var years = Math.floor(days_checked_out / 365 );
 				var days = days_checked_out % 365 ;
 				var ys = years > 1 ? "s" : "" ;
 				var ds = days > 1 ? "s" : "" ;
