@@ -6384,6 +6384,8 @@ form#assigned-assets .table-header span {
     background-color: #eb273a; }
   #message.success .modal-content {
     background-color: #1fd449; }
+  #message.warning .modal-content {
+    background-color: #ff9b00; }
 
 .table-header {
   font-weight: bold;

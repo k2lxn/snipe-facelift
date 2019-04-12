@@ -162,6 +162,12 @@ form#assigned-assets {
 			background-color: #1fd449;
 		}
 	}
+
+	&.warning {
+		.modal-content {
+			background-color: #ff9b00;
+		}
+	}
 }
 
 

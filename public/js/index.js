@@ -49,21 +49,19 @@ function hide_message( ms_duration ) {
 	clearTimeout(message_timeout);
 	message_timeout = setTimeout(function(){
 		$("#message").fadeOut();
+		$("#message").removeClass("success error warning");
 	}, ms_duration);
 }
 
-function display_error( message ) {
-	$("#message").removeClass("success").addClass("error");
+function display_message( message, msg_class, ms_duration ) {
+	msg_class = (typeof msg_class === 'string' ) ? msg_class : "success";
+	$("#message").addClass( msg_class );
 	$("#message .modal-body p").text( message );
 	$("#message.modal").fadeIn( "fast" );
-	hide_message();
-}
-
-function display_success( message ) {
-	$("#message").removeClass("error").addClass("success");
-	$("#message .modal-body p").text( message );
-	$("#message.modal").fadeIn( "fast" );
-	hide_message();
+	
+	// set default timeout wait
+	ms_duration = (typeof ms_duration === 'number' ) ? ms_duration : 2600;
+	hide_message( ms_duration );
 }
 
 
@@ -316,12 +314,12 @@ $(document).ready(function() {
 
 					// Display error messages
 					if ( response["status"] === "error" ) {
-						display_error( response["message"] );
+						display_message( response["message"], "error" );
 					}
 
 					// else, Display success message and hide #checkin-options
 					else if ( response["status"] === "success" ) {
-						display_success( response["message"] );
+						display_message( response["message"], "success" );
 						$("#checkin-options").fadeOut();
 
 						// if the asset was overdue, refresh the overdue asset list
@@ -357,12 +355,12 @@ $(document).ready(function() {
 
 					// Display error messages
 					if ( response["status"] === "error" ) {
-						display_error( response["message"] );
+						display_message( response["message"], "error" );
 					}
 
 					// else, Display success message and close modal window
 					else if ( response["status"] === "success" ) {
-						display_success( response["message"] );
+						display_message( response["message"], "success" );
 						$("#checkin-options").fadeOut();
 
 						// if the asset was overdue, refresh the overdue asset list
@@ -389,12 +387,15 @@ $(document).ready(function() {
 
 			// Display error messages
 			if ( response["status"] === "error" ) {
-				display_error( response["message"] );
+				display_message( response["message"], "error", 6000 );
 			}
-
+			// display warnings for greylisted users
+			else if ( response["status"] === "warning" ) {
+				display_message( response["message"], "warning", 6000 );
+			}
 			// else, Display success message and close modal window
 			else if ( response["status"] === "success" ) {
-				display_success( response["message"] );
+				display_message( response["message"], "success" );
 				$("#checkout-options").fadeOut();
 			}
 		});
