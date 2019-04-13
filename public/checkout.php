@@ -1,7 +1,7 @@
 <?php
 require_once( 'config.php' );
 require_once( $path_to_secrets . 'secrets.php' );
-require_once( $path_to_secrets . 'blacklist.php' );
+//require_once( $path_to_secrets . 'blacklist.php' );
 require_once( $path_to_includes .'validation.php' );
 require_once( $path_to_includes . 'snipe_calls.php' );
 
@@ -37,10 +37,12 @@ if ( isset($_GET['netID']) ){
 		exit(1);
 	}
 	// make sure that user is not blacklisted 
+	/*
 	elseif ( in_array( $target_netID, $blacklist ) ) {
 		echo json_encode( array('status'=>'error', 'message'=>($target_netID . ' is blacklisted. They can no longer checkout Thayer assets.') ) );
 		exit(1);
 	}
+	*/
 }
 
 // convert netID to assigneeID
@@ -109,13 +111,15 @@ if ( $json["status"] == "error" ) {
 }
 elseif (  $json["status"] == "success"  ) {
 	// if user is greylisted, warn tech
+	/*
 	if ( in_array( $target_netID, $greylist ) ) {
 		echo json_encode( array('status'=>'warning', 'message'=>"Warning: {$assignee_name} has a history of abusing loans. This checkout is allowed, with caution.", 'tech'=>$_SESSION['tech_id'] ) );
 	} 
+	*/
 	// otherwise send success
-	else {
+	//else {
 		echo json_encode( array('status'=>'success', 'message'=>"Asset checked out to {$assignee_name} until {$expected_checkin}", 'tech'=>$_SESSION['tech_id'] ) );
-	}
+	//}
 
 	// update "Last snipeplus user" field for asset
 	$url =  'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '?_snipeit_last_snipeplus_user_13=' . $_SESSION['tech_id'];
