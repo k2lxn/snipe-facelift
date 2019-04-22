@@ -27,7 +27,7 @@ else {
 $access_token = $dev_token;
 $headers = array(
 	'Content-Type: application/json',
-	'Authorization: Bearer '.$access_token,
+	'Authorization: Bearer '.$access_token
 );
 
 // 1st curl: get user's snipe_id 
@@ -47,6 +47,7 @@ if ( $user_json['total'] != 0 ) {
 	// grab snipe_id ($results[0]['id']) and ping api/users/[id]/assets
 	$user_snipe_id = $users[0]['id'] ;
 	$user_fullname = $users[0]['name'];
+	$netID = $users[0]['username'];
 
 	// 2nd curl: get user's assets
 	$ch = curl_init('https://ts.snipe-it.io/api/v1/users/' . $user_snipe_id . '/assets');
@@ -61,7 +62,7 @@ if ( $user_json['total'] != 0 ) {
 	if ( $asset_json['total'] != 0 ) {
 		$assets = $asset_json['rows'];
 
-		$response_data = array( 'user_id'=>$user_snipe_id, 'user_name'=>$user_fullname );
+		$response_data = array( 'user_id'=>$user_snipe_id, 'user_name'=>$user_fullname, 'netID'=>$netID);
 
 		for ($x = 0; $x < count($assets); $x++) {	
 			

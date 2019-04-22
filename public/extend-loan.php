@@ -2,6 +2,7 @@
 require_once( 'config.php' );
 require_once( $path_to_secrets . 'secrets.php' );
 require_once( $path_to_includes .'validation.php' );
+require_once( $path_to_includes .'blacklist.php' );
 require_once( $path_to_includes . 'snipe_calls.php' );
 
 session_start();
@@ -12,6 +13,24 @@ $assignee_id;
 $checkout_date;
 $new_checkin_date;
 $asset_name;
+
+// check if user is blacklisted
+if ( isset($_GET['netID']) ){
+	$target_netID = sanitize_netID( $_GET['netID'] );
+
+	if ( $target_netID == false ) {
+		echo json_encode( array('status'=>'error', 'message'=>'Invalid netID' ) );
+		exit(1);
+	}
+	// make sure that user is not blacklisted 
+	else {
+		if ( blacklisted( $target_netID ) == true ){
+			echo json_encode( array('status'=>'error', 'message'=>($target_netID . ' is blacklisted. They can no longer checkout Thayer assets.') ) );
+			exit(1);
+		}
+
+	}
+}
 
 // snipe_id validation
 if ( isset($_GET['snipe_id']) ){
@@ -105,6 +124,8 @@ if ( $json["status"] == "error" ) {
 
 // re-checkout
 elseif ( $json["status"] == "success" ) {
+
+	/* CHECK FOR BLACKLIST */
 
 	$url = 'https://ts.snipe-it.io/api/v1/hardware/' . $snipe_id . '/checkout?checkout_to_type=user&assigned_user=' . $assignee_id . '&checkout_at=' . $checkout_date  . '&expected_checkin=' . $new_checkin_date ;
 

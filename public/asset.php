@@ -51,7 +51,7 @@ if ( $json['total'] != 0 ) {
 
 			// if it's checked out
 			if ( $assets[$x]['assigned_to'] != null ) {
-				$response_data = array( 'user_id'=>$assets[$x]['assigned_to']['id'], 'user_name'=>$assets[$x]['assigned_to']['name'] );
+				$response_data = array( 'user_id'=>$assets[$x]['assigned_to']['id'], 'user_name'=>$assets[$x]['assigned_to']['name'], 'netID'=>$assets[$x]['assigned_to']['username'] );
 				
 				if ( $assets[$x]['last_checkout'] == "" ) {
 					if ( $assets[$x]['purchase_date'] != null ) {

@@ -98,6 +98,7 @@ if( !isset($_SESSION['tech_id']) ) {
 
     <form id="assigned-assets">
         <input name='assignee_id' type='hidden'> 
+        <input name='netID' type='hidden'>
 
         <!-- header template --> 
         <script id="asset-table-header" type="text/template">

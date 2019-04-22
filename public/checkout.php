@@ -1,8 +1,8 @@
 <?php
 require_once( 'config.php' );
 require_once( $path_to_secrets . 'secrets.php' );
-//require_once( $path_to_secrets . 'blacklist.php' );
 require_once( $path_to_includes .'validation.php' );
+require_once( $path_to_includes .'blacklist.php' );
 require_once( $path_to_includes . 'snipe_calls.php' );
 
 session_start();
@@ -37,12 +37,13 @@ if ( isset($_GET['netID']) ){
 		exit(1);
 	}
 	// make sure that user is not blacklisted 
-	/*
-	elseif ( in_array( $target_netID, $blacklist ) ) {
-		echo json_encode( array('status'=>'error', 'message'=>($target_netID . ' is blacklisted. They can no longer checkout Thayer assets.') ) );
-		exit(1);
+	else {
+		if ( blacklisted( $target_netID ) == true ){
+			echo json_encode( array('status'=>'error', 'message'=>($target_netID . ' is blacklisted. They can no longer checkout Thayer assets.') ) );
+			exit(1);
+		}
+
 	}
-	*/
 }
 
 // convert netID to assigneeID

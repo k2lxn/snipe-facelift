@@ -183,6 +183,7 @@ function populate_checkin_or_extend( data ) {
 
 	// hidden fields
 	$("#checkin-options input[name=assignee_id]").val( data["user_id"] );
+	$("#checkin-options input[name=netID]").val( data["netID"] );
 
 	// display name
 	$("#checkin-options .user-name").text( data["user_name"] );
@@ -341,7 +342,12 @@ $(document).ready(function() {
 		$("#assigned-assets input[type='checkbox']").each( function() { 
 			if ( this.checked === true ){
 				var snipe_id = $(this).val();
-				var url = "extend-loan.php?snipe_id=" + snipe_id + "&assignee_id=" + $("#assigned-assets input[name='assignee_id']").val() + "&checkout_date=" + $(this).data("original-checkout-date") + "&new_checkin_date=" + $("input[name='new_checkin_date']").val(); // ADD DATE DATA
+				var assignee_id = $("#assigned-assets input[name='assignee_id']").val() ;
+				var netID = $("#assigned-assets input[name='netID']").val() ;
+				var checkout_date =  $(this).data("original-checkout-date") ;
+				var new_checkin = $("input[name='new_checkin_date']").val() ;
+
+				var url = "extend-loan.php?snipe_id=" + snipe_id + "&netID=" + netID + "&assignee_id=" + assignee_id + "&checkout_date=" + checkout_date + "&new_checkin_date=" + new_checkin; // ADD DATE DATA
 				
 				if ( $(this).data("asset_name") !== "" ) {
 					url += "&asset_name=" + $(this).data("asset_name");
