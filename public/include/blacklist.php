@@ -15,6 +15,8 @@ if ( isset($_GET['netID']) ){
 */
 
 function blacklisted( $netID ) {
+	global $ad_token;
+
 	$ch = curl_init( "https://ad-api.thayer.dartmouth.edu/api.php?function=user_in_group&netid=\"" . $netID . "\"&group_name=\"denylogin\"" );
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: " . $ad_token) );
