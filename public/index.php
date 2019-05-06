@@ -1,11 +1,11 @@
 <?php
 require_once 'config.php';
+require_once( $path_to_includes .'authentication.php' );
 
 session_start();
 
 if( !isset($_SESSION['tech_id']) ) {
     require_once 'CAS-1.3.3/CAS.php';
-    require_once $path_to_secrets . 'allowed-users.php';
 
     // initialize phpCAS
     phpCAS::client( CAS_VERSION_2_0, 'login.dartmouth.edu', 443, 'cas' ) ;
@@ -20,13 +20,14 @@ if( !isset($_SESSION['tech_id']) ) {
     // at this point, the user has been authenticated by the CAS server
     if( substr_count(phpCAS::getUser(), '@DARTMOUTH.EDU')==1 ) {
     
-        //$_SESSION['tech_id'] = phpCAS::getAttribute( 'netid' ) ;
         $tech_id = phpCAS::getAttribute( 'netid' ) ;
-        if ( !in_array($tech_id, $allowed_users) ) {
+        
+        if ( sign_in_allowed( $tech_id ) ) {
+            $_SESSION['tech_id'] = $tech_id;
+        }
+        else {
             echo "Sorry, you don't have permission to use this tool" ;
             exit( 0 ) ;
-        } else {
-            $_SESSION['tech_id'] = $tech_id;
         }
     }
     else {

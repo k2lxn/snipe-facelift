@@ -1,18 +1,5 @@
 <?php
 require_once( $path_to_secrets . 'secrets.php' );
-require_once( $path_to_includes .'validation.php' );
-
-/*
-if ( isset($_GET['netID']) ){
-	$target_netID = sanitize_netID( $_GET['netID'] );
-
-	if ( $target_netID == false ) {
-		echo json_encode( array('status'=>'error', 'message'=>'Invalid netID' ) );
-		exit(1);
-	}
-	
-}
-*/
 
 function blacklisted( $netID ) {
 	global $ad_token;
