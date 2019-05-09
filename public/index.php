@@ -8,7 +8,7 @@ if( !isset($_SESSION['tech_id']) ) {
     require_once 'CAS-1.3.3/CAS.php';
 
     // initialize phpCAS
-    phpCAS::client( CAS_VERSION_2_0, 'login.dartmouth.edu', 443, 'cas' ) ;
+    phpCAS::client( CAS_VERSION_2_0, 'idp.login.dartmouth.edu', 443, 'cas' ) ;
     #phpCAS::client( CAS_VERSION_2_0, 'login-preprod.dartmouth.edu', 443, '/cas' ) ;
 
     // no SSL validation for the CAS server
