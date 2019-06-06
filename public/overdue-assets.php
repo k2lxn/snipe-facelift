@@ -12,7 +12,9 @@ $headers = array(
 );
 
 // Get all assets from Snipe
-$ch = curl_init('https://ts.snipe-it.io/api/v1/hardware?limit=200&status=deployed&sort=expected_checkin&order=desc');
+//$query = 'https://ts.snipe-it.io/api/v1/hardware?limit=200&status=deployed&sort=expected_checkin&order=desc'
+$query = 'https://ts.snipe-it.io/api/v1/hardware?sort=expected_checkin&order=desc';
+$ch = curl_init($query);
 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
